@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.honeycomb.libhoney</groupId>
+    <artifactId>libhoney-java-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <!-- TODO fix the urls once we know the repo location -->
+    <name>libhoney-java (Parent)</name>
+    <description>The Java client for sending events honeycomb (parent module)</description>
+    <url>https://github.com/...</url>
+    <inceptionYear>2018</inceptionYear>
+    <organization>
+        <name>honeycomb</name>
+        <url>https://honeycomb.io</url>
+    </organization>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/...</url>
+        <connection>scm:git:https://github.com/...git</connection>
+        <developerConnection>scm:git:https://github.com/...git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/.../issues</url>
+    </issueManagement>
+
+    <!-- TODO depending - fill in or remove -->
+    <!--<ciManagement>-->
+    <!--    <system>travis</system>-->
+    <!--    <url>https://somehost/</url>-->
+    <!--</ciManagement>-->
+    <!--<distributionManagement></distributionManagement>-->
+    <developers>
+        <developer>
+            <name>Honeycomb</name>
+            <email>support@honeycomb.io</email>
+            <organization>Honeycomb</organization>
+            <organizationUrl>https://honeycomb.io</organizationUrl>
+        </developer>
+    </developers>
+
+    <properties>
+        <dependency.locations.enabled>false</dependency.locations.enabled>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <jdkVersion>1.7</jdkVersion>
+
+        <!-- COMPILE dependency versions -->
+        <apacheClientVersion>4.1.3</apacheClientVersion>
+        <jacksonVersion>2.9.5</jacksonVersion>
+        <slf4jVersion>1.7.25</slf4jVersion>
+
+        <!-- TEST dependency versions -->
+        <junitVersion>4.12</junitVersion>
+        <mockitoVersion>2.18.0</mockitoVersion>
+        <assertjVersion>2.9.0</assertjVersion>
+        <wiremockVersion>2.17.0</wiremockVersion>
+
+        <!-- Maven plugin versions -->
+        <compilerPluginVersion>3.7.0</compilerPluginVersion>
+        <reportsPluginVersion>2.9</reportsPluginVersion>
+        <mavenSourcePluginVersion>3.0.1</mavenSourcePluginVersion>
+        <javadocPluginVersion>3.0.0</javadocPluginVersion>
+        <xrefPluginVersion>2.5</xrefPluginVersion>
+        <mavenWrapperPluginVersion>0.6.0</mavenWrapperPluginVersion>
+        <pmdPluginVersion>3.9.0</pmdPluginVersion>
+        <pmdCoreVersion>6.3.0</pmdCoreVersion>
+        <findbugsVersion>3.0.5</findbugsVersion>
+        <shadeVersion>3.1.0</shadeVersion>
+    </properties>
+
+    <modules>
+        <module>examples</module>
+        <module>libhoney</module>
+        <module>example-webapp</module>
+    </modules>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${compilerPluginVersion}</version>
+                <configuration>
+                    <source>${jdkVersion}</source>
+                    <target>${jdkVersion}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${javadocPluginVersion}</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${mavenSourcePluginVersion}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- mvn -N io.takari:maven:wrapper -Dmaven=3.3.9 -->
+            <plugin>
+                <groupId>io.takari</groupId>
+                <artifactId>maven</artifactId>
+                <version>${mavenWrapperPluginVersion}</version>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>

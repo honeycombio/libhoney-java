@@ -1,0 +1,54 @@
+= libhoney-java
+Java library for sending events to [Honeycomb](https://honeycomb.io).
+For more information, see the [documentation](https://honeycomb.io/docs/) and
+[Java SDK guide](https://honeycomb.io/docs/connect/java).)
+
+== Installation
+
+Add the following dependency to your maven build:
+----
+<dependency>
+    <groupId></groupId>
+    <artifactId></artifactId>
+    <version></version>
+</dependency>
+----
+For gradle builds add:
+----
+compile group: '', name: '', version: ''
+----
+
+
+== Documentation
+Javadoc is available at ... or within the distributed sources.
+
+== Example
+Honeycomb can calculate all sorts of statistics, so send the values you care about and let us crunch the
+averages, percentiles, lower/upper bounds, cardinality -- whatever you want -- for you.
+
+.Example.java
+[source,java]
+----
+public class SendImmediately {
+    public static HoneyClient initializeClient() {
+        return create(options()
+            .setWriteKey("myTeamWriteKey")
+            .setDataset("Cluster Dataset")
+            .build()
+        );
+    }
+
+    public static void main(String... args) throws UnknownHostException {
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("randomString", UUID.randomUUID().toString());
+        dataMap.put("cpuCores", Runtime.getRuntime().availableProcessors());
+        dataMap.put("hostname", InetAddress.getLocalHost().getHostName());
+
+        try (HoneyClient honeyClient = initializeClient()) {
+            honeyClient.send(dataMap);
+        }
+    }
+}
+----
+
+See the `examples` module for sample code demonstrating how to use features of the library.
