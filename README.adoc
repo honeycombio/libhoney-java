@@ -3,6 +3,13 @@ Java library for sending events to [Honeycomb](https://honeycomb.io).
 For more information, see the [documentation](https://honeycomb.io/docs/) and
 [Java SDK guide](https://honeycomb.io/docs/connect/java).)
 
+== Local Build
+
+Build with Java 7 and above by running the following from the root directory:
+----
+./mvnw package
+----
+
 == Installation
 
 Add the following dependency to your maven build:
@@ -18,9 +25,8 @@ For gradle builds add:
 compile group: '', name: '', version: ''
 ----
 
-
 == Documentation
-Javadoc is available at ... or within the distributed sources.
+Javadoc is available within the distributed sources.
 
 == Example
 Honeycomb can calculate all sorts of statistics, so send the values you care about and let us crunch the
@@ -51,4 +57,4 @@ public class SendImmediately {
 }
 ----
 
-See the `examples` module for sample code demonstrating how to use features of the library.
+See the `examples` repo for sample code demonstrating how to use features of the library.
