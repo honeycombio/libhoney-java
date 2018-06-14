@@ -7,8 +7,7 @@
     <groupId>io.honeycomb.libhoney</groupId>
     <artifactId>libhoney-java-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    
+    <packaging>pom</packaging>    
     <name>libhoney-java (Parent)</name>
     <description>The Java client for sending events to Honeycomb (parent module)</description>
     <url>https://github.com/honeycombio/libhoney-java</url>
@@ -26,15 +25,15 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/...</url>
-        <connection>scm:git:https://github.com/...git</connection>
-        <developerConnection>scm:git:https://github.com/...git</developerConnection>
+        <url>https://github.com/honeycombio/libhoney-java</url>
+        <connection>scm:git:git@github.com:honeycombio/libhoney-java.git</connection>
+        <developerConnection>scm:git:git@github.com:honeycombio/libhoney-java.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
         <system>Github</system>
-        <url>https://github.com/.../issues</url>
+        <url>https://github.com/honeycombio/libhoney-java/issues</url>
     </issueManagement>
 
     <distributionManagement>

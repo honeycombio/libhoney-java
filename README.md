@@ -1,34 +1,35 @@
-= libhoney-java
-Java library for sending events to [Honeycomb](https://honeycomb.io).
-For more information, see the [documentation](https://honeycomb.io/docs/) and
-[Java SDK guide](https://honeycomb.io/docs/connect/java).)
+# libhoney-java
+Java library for sending events to [Honeycomb](https://honeycomb.io). For more information, see the [documentation](https://honeycomb.io/docs/) and [Java SDK guide](https://honeycomb.io/docs/connect/java).
 
-== Installation
+Javadocs are available [here](https://honeycombio.github.io/libhoney-java/) or within the distributed sources.
+
+## Local Build
+
+Build with Java 7 and above by running the following from the root directory:
+```
+./mvnw package
+```
+
+## Installation
 
 Add the following dependency to your maven build:
-----
+```
 <dependency>
     <groupId></groupId>
     <artifactId></artifactId>
     <version></version>
 </dependency>
-----
+```
 For gradle builds add:
-----
+```
 compile group: '', name: '', version: ''
-----
+```
 
-
-== Documentation
-Javadoc is available at ... or within the distributed sources.
-
-== Example
+## Example
 Honeycomb can calculate all sorts of statistics, so send the values you care about and let us crunch the
 averages, percentiles, lower/upper bounds, cardinality -- whatever you want -- for you.
 
-.Example.java
-[source,java]
-----
+```java
 public class SendImmediately {
     public static HoneyClient initializeClient() {
         return create(options()
@@ -49,6 +50,6 @@ public class SendImmediately {
         }
     }
 }
-----
+```
 
-See the `examples` module for sample code demonstrating how to use features of the library.
+See our [examples repo](https://github.com/honeycombio/examples/tree/master/java-webapp) for a sample TODO webapp demonstrating how to use features of the library.
