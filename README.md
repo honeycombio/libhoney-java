@@ -15,14 +15,14 @@ Build with Java 7 and above by running the following from the root directory:
 Add the following dependency to your maven build:
 ```
 <dependency>
-    <groupId></groupId>
-    <artifactId></artifactId>
-    <version></version>
+  <groupId>io.honeycomb.libhoney</groupId>
+  <artifactId>libhoney-java</artifactId>
+  <version>1.0.0</version>
 </dependency>
 ```
 For gradle builds add:
 ```
-compile group: '', name: '', version: ''
+compile group: 'io.honeycomb.libhoney', name: 'libhoney-java', version: '1.0.0'
 ```
 
 ## Example
