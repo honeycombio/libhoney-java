@@ -30,6 +30,17 @@ Honeycomb can calculate all sorts of statistics, so send the values you care abo
 averages, percentiles, lower/upper bounds, cardinality -- whatever you want -- for you.
 
 ```java
+import io.honeycomb.libhoney.HoneyClient;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import static io.honeycomb.libhoney.LibHoney.create;
+import static io.honeycomb.libhoney.LibHoney.options;
+
 public class SendImmediately {
     public static HoneyClient initializeClient() {
         return create(options()
