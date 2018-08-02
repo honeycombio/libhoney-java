@@ -17,7 +17,7 @@ Add the following dependency to your maven build:
 <dependency>
   <groupId>io.honeycomb.libhoney</groupId>
   <artifactId>libhoney-java</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.2</version>
 </dependency>
 ```
 For gradle builds add:
