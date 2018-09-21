@@ -1,7 +1,11 @@
-# libhoney-java
-Java library for sending events to [Honeycomb](https://honeycomb.io). For more information, see the [documentation](https://honeycomb.io/docs/) and [Java SDK guide](https://honeycomb.io/docs/connect/java).
+# libhoney-java [![Build Status](https://travis-ci.org/honeycombio/libhoney-java.svg?branch=master)](https://travis-ci.org/honeycombio/libhoney-java) [![Maven Central](https://img.shields.io/maven-central/v/io.honeycomb.libhoney/libhoney-java.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3Aio.honeycomb.libhoney%20a%3Alibhoney-java)
 
-Javadocs are available [here](https://honeycombio.github.io/libhoney-java/) or within the distributed sources.
+Java library for sending events to [Honeycomb](https://honeycomb.io), a service for debugging your software in production.
+
+Requires Java 7 or greater.
+
+- [Usage and Examples](https://honeycomb.io/docs/connect/java)
+- [API Reference](https://honeycombio.github.io/libhoney-java/)
 
 ## Local Build
 
@@ -10,57 +14,10 @@ Build with Java 7 and above by running the following from the root directory:
 ./mvnw package
 ```
 
-## Installation
+## Contributions
 
-Add the following dependency to your maven build:
-```
-<dependency>
-  <groupId>io.honeycomb.libhoney</groupId>
-  <artifactId>libhoney-java</artifactId>
-  <version>1.0.2</version>
-</dependency>
-```
-For gradle builds add:
-```
-compile group: 'io.honeycomb.libhoney', name: 'libhoney-java', version: '1.0.0'
-```
+Features, bug fixes and other changes to `libhoney` are gladly accepted. Please
+open issues or a pull request with your change. Remember to add your name to the
+CONTRIBUTORS file!
 
-## Example
-Honeycomb can calculate all sorts of statistics, so send the values you care about and let us crunch the
-averages, percentiles, lower/upper bounds, cardinality -- whatever you want -- for you.
-
-```java
-import io.honeycomb.libhoney.HoneyClient;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
-import static io.honeycomb.libhoney.LibHoney.create;
-import static io.honeycomb.libhoney.LibHoney.options;
-
-public class SendImmediately {
-    public static HoneyClient initializeClient() {
-        return create(options()
-            .setWriteKey("myTeamWriteKey")
-            .setDataset("Cluster Dataset")
-            .build()
-        );
-    }
-
-    public static void main(String... args) throws UnknownHostException {
-        Map<String, Object> dataMap = new HashMap<>();
-        dataMap.put("randomString", UUID.randomUUID().toString());
-        dataMap.put("cpuCores", Runtime.getRuntime().availableProcessors());
-        dataMap.put("hostname", InetAddress.getLocalHost().getHostName());
-
-        try (HoneyClient honeyClient = initializeClient()) {
-            honeyClient.send(dataMap);
-        }
-    }
-}
-```
-
-See our [examples repo](https://github.com/honeycombio/examples/tree/master/java-webapp) for a sample TODO webapp demonstrating how to use features of the library.
+All contributions will be released under the Apache License 2.0.
