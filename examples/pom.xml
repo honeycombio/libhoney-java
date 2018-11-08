@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.honeycomb.libhoney</groupId>
+        <artifactId>libhoney-java-parent</artifactId>
+        <version>1.0.2</version>
+    </parent>
+
+    <artifactId>libhoney-java-examples</artifactId>
+    <packaging>jar</packaging>
+    <name>libhoney-java (Examples)</name>
+    <description>Example of using the Java client for sending events honeycomb</description>
+
+    <dependencies>
+         <dependency>
+             <groupId>io.honeycomb.libhoney</groupId>
+             <artifactId>libhoney-java</artifactId>
+             <version>1.0.2</version>
+         </dependency>
+     </dependencies>
+</project>
