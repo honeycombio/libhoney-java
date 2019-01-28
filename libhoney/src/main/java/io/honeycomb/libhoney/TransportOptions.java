@@ -35,6 +35,7 @@ public class TransportOptions {
     public static final int DEFAULT_BUFFER_SIZE = 8 * 1024;
     public static final int DEFAULT_IO_THREAD_COUNT = Runtime.getRuntime().availableProcessors();
     public static final long DEFAULT_MAX_HTTP_REQUEST_SHUTDOWN_WAIT = 2000L;
+    public static final String DEFAULT_ADDITIONAL_USER_AGENT = "";
 
     /// batching properties
     private final int batchSize;
@@ -51,21 +52,23 @@ public class TransportOptions {
     private final int bufferSize;
     private final int ioThreadCount;
     private final long maximumHttpRequestShutdownWait;
+    private final String additionalUserAgent;
 
     // parameter list is fine, since it's only used by the builder
     @SuppressWarnings("PMD.ExcessiveParameterList")
     TransportOptions(final Integer batchSize,
-                             final Long batchTimeoutMillis,
-                             final Integer queueCapacity,
-                             final Integer maxPendingBatchRequests,
-                             final Integer maxConnections,
-                             final Integer maxConnectionsPerApiHost,
-                             final Integer connectTimeout,
-                             final Integer connectionRequestTimeout,
-                             final Integer socketTimeout,
-                             final Integer bufferSize,
-                             final Integer ioThreadCount,
-                             final Long maximumHttpRequestShutdownWait) {
+                     final Long batchTimeoutMillis,
+                     final Integer queueCapacity,
+                     final Integer maxPendingBatchRequests,
+                     final Integer maxConnections,
+                     final Integer maxConnectionsPerApiHost,
+                     final Integer connectTimeout,
+                     final Integer connectionRequestTimeout,
+                     final Integer socketTimeout,
+                     final Integer bufferSize,
+                     final Integer ioThreadCount,
+                     final Long maximumHttpRequestShutdownWait,
+                     final String additionalUserAgent) {
 
         //Batching-specific
         this.batchSize = getOrDefault(batchSize, DEFAULT_BATCH_SIZE);
@@ -83,6 +86,7 @@ public class TransportOptions {
         this.ioThreadCount = getOrDefault(ioThreadCount, DEFAULT_IO_THREAD_COUNT);
         this.maximumHttpRequestShutdownWait = getOrDefault(maximumHttpRequestShutdownWait,
             DEFAULT_MAX_HTTP_REQUEST_SHUTDOWN_WAIT);
+        this.additionalUserAgent = getOrDefault(additionalUserAgent, DEFAULT_ADDITIONAL_USER_AGENT);
 
         Assert.isTrue(this.batchSize >= 1, "batchSize must be 1 or greater");
         Assert.isTrue(this.batchTimeoutMillis >= 1, "batchTimeoutMillis must be 1 or greater");
@@ -196,6 +200,10 @@ public class TransportOptions {
         return maximumHttpRequestShutdownWait;
     }
 
+    public String getAdditionalUserAgent() {
+        return additionalUserAgent;
+    }
+
     static TransportOptions.Builder builder() {
         return new TransportOptions.Builder();
     }
@@ -215,6 +223,7 @@ public class TransportOptions {
             ", bufferSize=" + bufferSize +
             ", ioThreadCount=" + ioThreadCount +
             ", maximumHttpRequestShutdownWait=" + maximumHttpRequestShutdownWait +
+            ", additionalUserAgent=" + additionalUserAgent +
             '}';
     }
 
@@ -237,6 +246,7 @@ public class TransportOptions {
         private Integer bufferSize;
         private Integer ioThreadCount;
         private Long maximumHttpRequestShutdownWait;
+        private String additionalUserAgent;
 
         /**
          * This creates a {@link TransportOptions} instance.
@@ -257,7 +267,8 @@ public class TransportOptions {
                 socketTimeout,
                 bufferSize,
                 ioThreadCount,
-                maximumHttpRequestShutdownWait);
+                maximumHttpRequestShutdownWait,
+                additionalUserAgent);
         }
 
         /**
@@ -573,6 +584,28 @@ public class TransportOptions {
          */
         public TransportOptions.Builder setMaximumHttpRequestShutdownWait(final long maximumHttpRequestShutdownWait) {
             this.maximumHttpRequestShutdownWait = maximumHttpRequestShutdownWait;
+            return this;
+        }
+
+        /**
+         * @return the currently set additional user agent string.
+         * @see TransportOptions.Builder#setAdditionalUserAgent
+         */
+        public String getAdditionalUserAgent() {
+            return additionalUserAgent;
+        }
+
+        /**
+         * Set this to add an additional component to the user agent header sent to Honeycomb when Events are submitted.
+         * This is usually only of interest for instrumentation libraries that wrap LibHoney.
+         * <p>
+         * Default: None
+         *
+         * @param additionalUserAgent to set.
+         * @return this.
+         */
+        public TransportOptions.Builder setAdditionalUserAgent(final String additionalUserAgent) {
+            this.additionalUserAgent = additionalUserAgent;
             return this;
         }
     }

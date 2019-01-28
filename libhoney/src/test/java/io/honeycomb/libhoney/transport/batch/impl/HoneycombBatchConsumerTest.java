@@ -43,6 +43,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@SuppressWarnings("unchecked")
 public class HoneycombBatchConsumerTest {
 
     private HoneycombBatchConsumer consumer;
@@ -121,6 +122,29 @@ public class HoneycombBatchConsumerTest {
 
         assertThat(value.getFirstHeader("user-agent").getValue()).isEqualTo("libhoneycomb-java/1.0.0");
     }
+
+    @Test
+    public void GIVEN_anEmptyUserAgentAddition_EXPECT_requestToContainUserAgentHeaderOnlyWithLibhoneyJavaAgent() throws InterruptedException {
+        consumer = new HoneycombBatchConsumer(clientMock, observableMock, batchRequestSerializer,100, 200, "");
+        final List<ResolvedEvent> events = createTestEvents();
+
+        consumer.consume(events);
+        final HttpUriRequest value = captureRequest();
+
+        assertThat(value.getFirstHeader("user-agent").getValue()).isEqualTo("libhoneycomb-java/1.0.0");
+    }
+
+    @Test
+    public void GIVEN_anAdditionalUserAgent_EXPECT_requestToContainUserAgentHeaderWithLibhoneyJavaAgentAndAdditionalUserAgen() throws InterruptedException {
+        consumer = new HoneycombBatchConsumer(clientMock, observableMock, batchRequestSerializer,100, 200, "beeline/1.0.0");
+        final List<ResolvedEvent> events = createTestEvents();
+
+        consumer.consume(events);
+        final HttpUriRequest value = captureRequest();
+
+        assertThat(value.getFirstHeader("user-agent").getValue()).isEqualTo("libhoneycomb-java/1.0.0 beeline/1.0.0");
+    }
+
 
     @Test
     public void GIVEN_normalTestEvents_EXPECT_requestToContainJsonEntity() throws InterruptedException {
