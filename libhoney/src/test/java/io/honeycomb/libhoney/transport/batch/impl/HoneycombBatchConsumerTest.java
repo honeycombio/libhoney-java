@@ -6,10 +6,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.honeycomb.libhoney.TestUtils;
 import io.honeycomb.libhoney.eventdata.ResolvedEvent;
 import io.honeycomb.libhoney.responses.ClientRejected;
+import io.honeycomb.libhoney.responses.ResponseObservable;
 import io.honeycomb.libhoney.responses.ServerAccepted;
 import io.honeycomb.libhoney.responses.ServerRejected;
 import io.honeycomb.libhoney.responses.Unknown;
-import io.honeycomb.libhoney.responses.ResponseObservable;
 import io.honeycomb.libhoney.transport.json.BatchRequestSerializer;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -34,10 +34,12 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -56,7 +58,7 @@ public class HoneycombBatchConsumerTest {
     public void setUp() throws Exception {
         clientMock = mock(CloseableHttpAsyncClient.class);
         observableMock = mock(ResponseObservable.class);
-        consumer = new HoneycombBatchConsumer(clientMock, observableMock, batchRequestSerializer,100, 200);
+        consumer = new HoneycombBatchConsumer(clientMock, observableMock, batchRequestSerializer, 100, 200);
     }
 
     @Test
@@ -125,7 +127,7 @@ public class HoneycombBatchConsumerTest {
 
     @Test
     public void GIVEN_anEmptyUserAgentAddition_EXPECT_requestToContainUserAgentHeaderOnlyWithLibhoneyJavaAgent() throws InterruptedException {
-        consumer = new HoneycombBatchConsumer(clientMock, observableMock, batchRequestSerializer,100, 200, "");
+        consumer = new HoneycombBatchConsumer(clientMock, observableMock, batchRequestSerializer, 100, 200, "");
         final List<ResolvedEvent> events = createTestEvents();
 
         consumer.consume(events);
@@ -136,7 +138,7 @@ public class HoneycombBatchConsumerTest {
 
     @Test
     public void GIVEN_anAdditionalUserAgent_EXPECT_requestToContainUserAgentHeaderWithLibhoneyJavaAgentAndAdditionalUserAgen() throws InterruptedException {
-        consumer = new HoneycombBatchConsumer(clientMock, observableMock, batchRequestSerializer,100, 200, "beeline/1.0.0");
+        consumer = new HoneycombBatchConsumer(clientMock, observableMock, batchRequestSerializer, 100, 200, "beeline/1.0.0");
         final List<ResolvedEvent> events = createTestEvents();
 
         consumer.consume(events);
@@ -206,7 +208,7 @@ public class HoneycombBatchConsumerTest {
      */
     @Test
     public void GIVEN_aSemaphoreHitsLimit_EXPECT_threadToBlock() throws InterruptedException {
-        consumer = new HoneycombBatchConsumer(clientMock, new ResponseObservable(), batchRequestSerializer,2, 200);
+        consumer = new HoneycombBatchConsumer(clientMock, new ResponseObservable(), batchRequestSerializer, 2, 200);
         final CountDownLatch countDownLatch = new CountDownLatch(2);
         final ExecutorService executorService = Executors.newFixedThreadPool(5);
         executorService.submit(new ConsumptionTask(countDownLatch));
@@ -214,81 +216,111 @@ public class HoneycombBatchConsumerTest {
         countDownLatch.await();
 
         final CountDownLatch newLatch = new CountDownLatch(1);
-        final Future<?> three = executorService.submit(new ConsumptionTask(newLatch));
-        newLatch.await(50, TimeUnit.MILLISECONDS);
+        final Future<?> taskResult = executorService.submit(new ConsumptionTask(newLatch));
+        final boolean isLatchThreeRelease = newLatch.await(50, TimeUnit.MILLISECONDS);
+        try {
+            taskResult.get(100, TimeUnit.MILLISECONDS);
+        } catch (ExecutionException | TimeoutException e) {
+        }
 
-        assertThat(three.isDone()).isFalse();
+        assertThat(isLatchThreeRelease).isFalse();
+        assertThat(taskResult).isNotDone();
+
         executorService.shutdownNow();
     }
 
     @Test
-    public void GIVEN_aSemaphoreHitsLimit_WHEN_callingCallbackViaCancellation_EXPECT_semaphoreToBeReleaseAndThreadToBecomeUnblocked() throws InterruptedException {
+    public void GIVEN_aSemaphoreHitsLimit_WHEN_callingCallbackViaCancellation_EXPECT_semaphoreToBeReleaseAndThreadToBecomeUnblocked() throws Exception {
+        // set maximumpendingrequests to 1 -> only one available permit on the semaphore
         consumer = new HoneycombBatchConsumer(clientMock, new ResponseObservable(), batchRequestSerializer, 1, 200);
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
         final ExecutorService executorService = Executors.newFixedThreadPool(5);
-        executorService.submit(new ConsumptionTask(countDownLatch));
-        countDownLatch.await();
+
+        // supply 1 task that does not release its permit
+        final CountDownLatch firstTaskLatch = new CountDownLatch(1);
+        executorService.submit(new ConsumptionTask(firstTaskLatch));
+        firstTaskLatch.await();
         final FutureCallback<HttpResponse> callback = captureCallback();
 
-        final CountDownLatch newLatch = new CountDownLatch(1);
-        final Future<?> three = executorService.submit(new ConsumptionTask(newLatch));
-        final boolean await = newLatch.await(500, TimeUnit.MILLISECONDS);
-        assertThat(await).isFalse();
-        assertThat(three.isDone()).isFalse();
+        // supply another task that will have to wait for permit to be released
+        final CountDownLatch secondTaskLatch = new CountDownLatch(1);
+        final Future<?> secondTaskResult = executorService.submit(new ConsumptionTask(secondTaskLatch));
+        boolean isLatchTwoRelease = secondTaskLatch.await(500, TimeUnit.MILLISECONDS);
+        assertThat(isLatchTwoRelease).isFalse();
+        assertThat(secondTaskResult).isNotDone();
 
+        // release latch by cancelling the first task callback
         callback.cancelled();
-        final boolean await2 = newLatch.await(500, TimeUnit.MILLISECONDS);
 
-        assertThat(await2).isTrue();
-        assertThat(three.isDone()).isTrue();
+        // 2nd task should finish
+        isLatchTwoRelease = secondTaskLatch.await(500, TimeUnit.MILLISECONDS);
+        assertThat(isLatchTwoRelease).isTrue();
+        secondTaskResult.get(500, TimeUnit.MILLISECONDS);
+        assertThat(secondTaskResult).isDone();
+
         executorService.shutdownNow();
     }
 
     @Test
-    public void GIVEN_aSemaphoreHitsLimit_WHEN_callingCallbackViaException_EXPECT_semaphoreToBeReleaseAndThreadToBecomeUnblocked() throws InterruptedException {
+    public void GIVEN_aSemaphoreHitsLimit_WHEN_callingCallbackViaException_EXPECT_semaphoreToBeReleaseAndThreadToBecomeUnblocked() throws Exception {
+        // set maximumpendingrequests to 1 -> only one available permit on the semaphore
         consumer = new HoneycombBatchConsumer(clientMock, new ResponseObservable(), batchRequestSerializer, 1, 200);
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
         final ExecutorService executorService = Executors.newFixedThreadPool(5);
-        executorService.submit(new ConsumptionTask(countDownLatch));
-        countDownLatch.await();
+
+        // supply 1 task that does not release its permit
+        final CountDownLatch firstTaskLatch = new CountDownLatch(1);
+        executorService.submit(new ConsumptionTask(firstTaskLatch));
+        firstTaskLatch.await();
         final FutureCallback<HttpResponse> callback = captureCallback();
 
-        final CountDownLatch newLatch = new CountDownLatch(1);
-        final Future<?> three = executorService.submit(new ConsumptionTask(newLatch));
-        final boolean await = newLatch.await(500, TimeUnit.MILLISECONDS);
-        assertThat(await).isFalse();
-        assertThat(three.isDone()).isFalse();
+        // supply another task that will have to wait for permit to be released
+        final CountDownLatch secondTaskLatch = new CountDownLatch(1);
+        final Future<?> secondTaskResult = executorService.submit(new ConsumptionTask(secondTaskLatch));
+        boolean isLatchTwoRelease = secondTaskLatch.await(500, TimeUnit.MILLISECONDS);
+        assertThat(isLatchTwoRelease).isFalse();
+        assertThat(secondTaskResult).isNotDone();
 
+        // release latch by failing the first task callback
         callback.failed(new SomeException());
-        final boolean await2 = newLatch.await(500, TimeUnit.MILLISECONDS);
 
-        assertThat(await2).isTrue();
-        assertThat(three.isDone()).isTrue();
+        // 2nd task should finish
+        isLatchTwoRelease = secondTaskLatch.await(500, TimeUnit.MILLISECONDS);
+        assertThat(isLatchTwoRelease).isTrue();
+        secondTaskResult.get(500, TimeUnit.MILLISECONDS);
+        assertThat(secondTaskResult).isDone();
+
         executorService.shutdownNow();
     }
 
     @Test
-    public void GIVEN_aSemaphoreHitsLimit_WHEN_callingCallbackViaNormalCompletion_EXPECT_semaphoreToBeReleaseAndThreadToBecomeUnblocked() throws InterruptedException, UnsupportedEncodingException {
+    public void GIVEN_aSemaphoreHitsLimit_WHEN_callingCallbackViaNormalCompletion_EXPECT_semaphoreToBeReleaseAndThreadToBecomeUnblocked() throws Exception {
+        // set maximumpendingrequests to 1 -> only one available permit on the semaphore
         consumer = new HoneycombBatchConsumer(clientMock, new ResponseObservable(), batchRequestSerializer, 1, 200);
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
         final ExecutorService executorService = Executors.newFixedThreadPool(5);
-        executorService.submit(new ConsumptionTask(countDownLatch));
-        countDownLatch.await();
+
+        // supply 1 task that does not release its permit
+        final CountDownLatch firstTaskLatch = new CountDownLatch(1);
+        executorService.submit(new ConsumptionTask(firstTaskLatch));
+        firstTaskLatch.await();
         final FutureCallback<HttpResponse> callback = captureCallback();
 
-        final CountDownLatch newLatch = new CountDownLatch(1);
-        final Future<?> three = executorService.submit(new ConsumptionTask(newLatch));
-        final boolean await = newLatch.await(500, TimeUnit.MILLISECONDS);
-        assertThat(await).isFalse();
-        assertThat(three.isDone()).isFalse();
+        // supply another task that will have to wait for permit to be released
+        final CountDownLatch secondTaskLatch = new CountDownLatch(1);
+        final Future<?> secondTaskResult = executorService.submit(new ConsumptionTask(secondTaskLatch));
+        boolean isLatchTwoRelease = secondTaskLatch.await(500, TimeUnit.MILLISECONDS);
+        assertThat(isLatchTwoRelease).isFalse();
+        assertThat(secondTaskResult).isNotDone();
 
-        final BasicHttpResponse result = new BasicHttpResponse(new HttpVersion(1, 1), 2000, "All groovy!");
+        // release latch by completing the first task callback
+        final HttpResponse result = new BasicHttpResponse(new HttpVersion(1, 1), 2000, "All groovy!");
         result.setEntity(new StringEntity("Body"));
         callback.completed(result);
-        final boolean await2 = newLatch.await(500, TimeUnit.MILLISECONDS);
 
-        assertThat(await2).isTrue();
-        assertThat(three.isDone()).isTrue();
+        // 2nd task should finish
+        isLatchTwoRelease = secondTaskLatch.await(500, TimeUnit.MILLISECONDS);
+        assertThat(isLatchTwoRelease).isTrue();
+        secondTaskResult.get(500, TimeUnit.MILLISECONDS);
+        assertThat(secondTaskResult).isDone();
+
         executorService.shutdownNow();
     }
 
@@ -450,7 +482,7 @@ public class HoneycombBatchConsumerTest {
     @Test
     public void GIVEN_semaphoreIsSetTo2_AND_clientThrowsExceptions_EXPECT_errorHandlingToReleaseSemaphorePermits() throws InterruptedException {
         doThrow(SomeException.class).when(clientMock).execute(any(HttpUriRequest.class), any(FutureCallback.class));
-        consumer = new HoneycombBatchConsumer(clientMock, observableMock,  batchRequestSerializer,2, 200);
+        consumer = new HoneycombBatchConsumer(clientMock, observableMock, batchRequestSerializer, 2, 200);
         final List<ResolvedEvent> events = createTestEvents();
 
         consumer.consume(events);
@@ -476,7 +508,7 @@ public class HoneycombBatchConsumerTest {
 
     @Test
     public void GIVEN_semaphoreIsSetTo2_AND_requestBuildingThrowsExceptions_EXPECT_errorHandlingToReleaseSemaphorePermits() throws InterruptedException {
-        consumer = new HoneycombBatchConsumer(clientMock, observableMock,  batchRequestSerializer,2, 200);
+        consumer = new HoneycombBatchConsumer(clientMock, observableMock, batchRequestSerializer, 2, 200);
         final List<ResolvedEvent> events = createTestEvents();
         events.get(0).setApiHost(null);
 
@@ -490,7 +522,7 @@ public class HoneycombBatchConsumerTest {
     @Test
     public void GIVEN_noBoundOnTheMaximumPendingRequests_WHEN_sendManyEvents_EXPECT_consumerDoesNotBlock() throws Exception {
         when(observableMock.hasObservers()).thenReturn(true);
-        consumer = new HoneycombBatchConsumer(clientMock, observableMock,  batchRequestSerializer,-1, 200);
+        consumer = new HoneycombBatchConsumer(clientMock, observableMock, batchRequestSerializer, -1, 200);
         for (int i = 0; i < 500; i++) {
             consumer.consume(createTestEvents());
         }
@@ -507,7 +539,7 @@ public class HoneycombBatchConsumerTest {
             "    \"status\": 202" +
             "  }" +
             "]"));
-        for (final FutureCallback callback: captor.getAllValues()) {
+        for (final FutureCallback callback : captor.getAllValues()) {
             callback.completed(result);
         }
         verify(observableMock, times(1000)).publish(any(ServerAccepted.class));
@@ -549,7 +581,6 @@ public class HoneycombBatchConsumerTest {
         private final CountDownLatch countDownLatch;
 
         public ConsumptionTask(final CountDownLatch countDownLatch) {
-
             this.countDownLatch = countDownLatch;
         }
 
@@ -559,8 +590,10 @@ public class HoneycombBatchConsumerTest {
             try {
                 consumer.consume(events);
                 countDownLatch.countDown();
+                // add extra wait at the end to ensure tests wait for the task to actually finish
+                Thread.sleep(10);
             } catch (final InterruptedException e) {
-               // nothing
+                throw new RuntimeException(e);
             }
         }
     }
