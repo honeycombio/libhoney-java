@@ -10,7 +10,7 @@ package io.honeycomb.libhoney;
  *
  * <h2>Default client</h2>
  * You can use {@link #setDefault(HoneyClient)} (or call {@link HoneyClient#setAsDefault()} directly on an instance)
- * to set a globally accesible client instance, then retrievable via {@link #getDefault()}.
+ * to set a globally accessible client instance, then retrievable via {@link #getDefault()}.
  */
 public final class LibHoney {
     private static volatile HoneyClient defaultClient;

@@ -5,6 +5,7 @@ import io.honeycomb.libhoney.responses.ResponseObservable;
 import io.honeycomb.libhoney.responses.impl.EventResponseFactory;
 import io.honeycomb.libhoney.responses.impl.LazyServerResponse;
 import io.honeycomb.libhoney.transport.batch.BatchConsumer;
+import io.honeycomb.libhoney.transport.json.BatchRequestSerializer;
 import io.honeycomb.libhoney.transport.json.JsonSerializer;
 import io.honeycomb.libhoney.utils.ObjectUtils;
 import org.apache.http.HttpHeaders;
@@ -57,12 +58,28 @@ public class HoneycombBatchConsumer implements BatchConsumer<ResolvedEvent> {
     private final int maximumPendingRequests;
     private final long maximumHttpRequestShutdownWait;
 
+    private final String userAgentString;
+
+    public HoneycombBatchConsumer(final CloseableHttpAsyncClient internalClient,
+                                  final ResponseObservable observable,
+                                  final BatchRequestSerializer batchRequestSerializer,
+                                  final int maximumPendingRequests,
+                                  final int maximumHTTPRequestShutdownWait) {
+        this(internalClient,
+            observable,
+            batchRequestSerializer,
+            maximumPendingRequests,
+            maximumHTTPRequestShutdownWait,
+            null);
+    }
+
     @SuppressWarnings("PMD.NullAssignment") // the semaphore mechanism is optional via "null"
     public HoneycombBatchConsumer(final CloseableHttpAsyncClient internalClient,
                                   final ResponseObservable observable,
                                   final JsonSerializer<List<BatchRequestElement>> batchRequestSerializer,
                                   final int maximumPendingRequests,
-                                  final long maximumHTTPRequestShutdownWait) {
+                                  final long maximumHTTPRequestShutdownWait,
+                                  final String additionalUserAgent) {
         this.internalClient = internalClient;
         this.observable = observable;
         this.batchSerializer = batchRequestSerializer;
@@ -73,6 +90,11 @@ public class HoneycombBatchConsumer implements BatchConsumer<ResolvedEvent> {
             this.maximumPendingRequestSemaphore = new Semaphore(maximumPendingRequests);
         }
         this.maximumHttpRequestShutdownWait = maximumHTTPRequestShutdownWait;
+        if (ObjectUtils.isNullOrEmpty(additionalUserAgent)) {
+            this.userAgentString = USER_AGENT;
+        } else {
+            this.userAgentString = USER_AGENT + " " + additionalUserAgent;
+        }
     }
 
     @Override
@@ -117,7 +139,7 @@ public class HoneycombBatchConsumer implements BatchConsumer<ResolvedEvent> {
         return RequestBuilder
             .post(finalUri)
             .addHeader(WRITE_KEY_HEADER, event.getWriteKey())
-            .addHeader(HttpHeaders.USER_AGENT, USER_AGENT)
+            .addHeader(HttpHeaders.USER_AGENT, userAgentString)
             .setEntity(new ByteArrayEntity(toSend, ContentType.APPLICATION_JSON))
             .build();
     }

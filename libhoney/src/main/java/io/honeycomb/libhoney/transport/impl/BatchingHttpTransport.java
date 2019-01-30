@@ -91,7 +91,8 @@ public class BatchingHttpTransport implements Transport {
             responseObservable,
             batchRequestSerializer,
             options.getMaxPendingBatchRequests(),
-            options.getMaximumHttpRequestShutdownWait());
+            options.getMaximumHttpRequestShutdownWait(),
+            options.getAdditionalUserAgent());
 
         final Batcher<ResolvedEvent> batcher = new DefaultBatcher<>(
             batchKeyStrategy,
