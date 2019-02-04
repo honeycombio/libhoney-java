@@ -34,7 +34,7 @@ public final class ObjectUtils {
      * @return a formatter for a, RFC3339 date, compatible with the honeycomb API.
      */
     public static SimpleDateFormat getRFC3339DateTimeFormatter() {
-        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSXXX", Locale.ENGLISH);
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ENGLISH);
     }
 
     public static Map<String, Object> nullsafe(final Map<String, Object> eventMetadata) {
