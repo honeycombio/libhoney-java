@@ -278,11 +278,12 @@ public class HoneycombBatchConsumer implements BatchConsumer<ResolvedEvent> {
 
         private void consumeSuccessful(final HttpResponse httpResponse) {
             markEndOfHttpRequest();
-            if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_UNAUTHORIZED) {
+            if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_UNAUTHORIZED && !observable.hasObservers()) {
                 // We log an error on any 401 because this is likely a critical configuration error and so should
                 // not require ResponseObserver, but should be clear from the logs.
                 // The alternative is to eagerly check the validity of the global write key on start-up (as in the
                 // existing GO SDK), but that relies on undocumented API features.
+                // Only log the error if there are no observers attached to handle it
                 LOG.error("Server responded with a 401 HTTP error code to a batch request. This is likely caused by " +
                     "using an incorrect 'Team Write Key'. Check https://ui.honeycomb.io/account to verify your " +
                     "team write key. An error has been published to the ResponseObservers for each event " +
