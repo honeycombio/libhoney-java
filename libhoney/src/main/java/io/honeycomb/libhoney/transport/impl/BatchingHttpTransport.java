@@ -112,6 +112,7 @@ public class BatchingHttpTransport implements Transport {
             .setConnectionManagerShared(false)
             .setDefaultRequestConfig(
                 RequestConfig.custom()
+                    .setProxy(options.getProxy())
                     .setConnectTimeout(options.getConnectTimeout())
                     .setConnectionRequestTimeout(options.getConnectionRequestTimeout())
                     .setSocketTimeout(options.getSocketTimeout())

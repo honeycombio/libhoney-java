@@ -3,6 +3,7 @@ package io.honeycomb.libhoney;
 import io.honeycomb.libhoney.transport.batch.impl.DefaultBatcher;
 import io.honeycomb.libhoney.transport.batch.impl.HoneycombBatchConsumer;
 import io.honeycomb.libhoney.utils.Assert;
+import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.http.impl.nio.reactor.IOReactorConfig;
@@ -53,6 +54,7 @@ public class TransportOptions {
     private final int ioThreadCount;
     private final long maximumHttpRequestShutdownWait;
     private final String additionalUserAgent;
+    private final HttpHost proxy;
 
     // parameter list is fine, since it's only used by the builder
     @SuppressWarnings("PMD.ExcessiveParameterList")
@@ -68,7 +70,8 @@ public class TransportOptions {
                      final Integer bufferSize,
                      final Integer ioThreadCount,
                      final Long maximumHttpRequestShutdownWait,
-                     final String additionalUserAgent) {
+                     final String additionalUserAgent,
+                     final HttpHost proxy) {
 
         //Batching-specific
         this.batchSize = getOrDefault(batchSize, DEFAULT_BATCH_SIZE);
@@ -87,6 +90,7 @@ public class TransportOptions {
         this.maximumHttpRequestShutdownWait = getOrDefault(maximumHttpRequestShutdownWait,
             DEFAULT_MAX_HTTP_REQUEST_SHUTDOWN_WAIT);
         this.additionalUserAgent = getOrDefault(additionalUserAgent, DEFAULT_ADDITIONAL_USER_AGENT);
+        this.proxy = proxy;
 
         Assert.isTrue(this.batchSize >= 1, "batchSize must be 1 or greater");
         Assert.isTrue(this.batchTimeoutMillis >= 1, "batchTimeoutMillis must be 1 or greater");
@@ -204,6 +208,10 @@ public class TransportOptions {
         return additionalUserAgent;
     }
 
+    public HttpHost getProxy() {
+        return proxy;
+    }
+
     static TransportOptions.Builder builder() {
         return new TransportOptions.Builder();
     }
@@ -247,6 +255,7 @@ public class TransportOptions {
         private Integer ioThreadCount;
         private Long maximumHttpRequestShutdownWait;
         private String additionalUserAgent;
+        private HttpHost proxy;
 
         /**
          * This creates a {@link TransportOptions} instance.
@@ -268,7 +277,8 @@ public class TransportOptions {
                 bufferSize,
                 ioThreadCount,
                 maximumHttpRequestShutdownWait,
-                additionalUserAgent);
+                additionalUserAgent,
+                proxy);
         }
 
         /**
@@ -606,6 +616,15 @@ public class TransportOptions {
          */
         public TransportOptions.Builder setAdditionalUserAgent(final String additionalUserAgent) {
             this.additionalUserAgent = additionalUserAgent;
+            return this;
+        }
+
+        public HttpHost getProxy() {
+            return proxy;
+        }
+
+        public TransportOptions.Builder setProxy(final HttpHost proxy) {
+            this.proxy = proxy;
             return this;
         }
     }
