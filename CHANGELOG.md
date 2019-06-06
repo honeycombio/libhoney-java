@@ -1,5 +1,10 @@
 # libhoney Changelog
 
+## 1.0.7 2019-06-06
+
+Fixes:
+- Adds slf4j as a normal dependency to avoid version conflicts.
+
 ## 1.0.6 2019-02-06
 
 Improvements:
