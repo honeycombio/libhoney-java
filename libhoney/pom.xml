@@ -32,6 +32,14 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>${shadeVersion}</version>
                 <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>org.apache.httpcomponents:*</include>
+                            <include>com.fasterxml.jackson.core:*</include>
+                            <include>commons-codec:*</include>
+                            <include>commons-logging:*</include>
+                        </includes>
+                    </artifactSet>
                     <relocations>
                         <relocation>
                             <pattern>org.apache.http</pattern>
