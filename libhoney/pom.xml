@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.honeycomb.libhoney</groupId>
         <artifactId>libhoney-java-parent</artifactId>
-        <version>1.0.6</version>
+        <version>1.0.8</version>
     </parent>
 
     <artifactId>libhoney-java</artifactId>
@@ -32,6 +32,14 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>${shadeVersion}</version>
                 <configuration>
+                    <artifactSet>
+                        <includes>
+                            <include>org.apache.httpcomponents:*</include>
+                            <include>com.fasterxml.jackson.core:*</include>
+                            <include>commons-codec:*</include>
+                            <include>commons-logging:*</include>
+                        </includes>
+                    </artifactSet>
                     <relocations>
                         <relocation>
                             <pattern>org.apache.http</pattern>
@@ -153,12 +161,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>${jacksonVersion}</version>
+            <version>${jacksonCoreVersion}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jacksonVersion}</version>
+            <version>${jacksonDatabindVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
