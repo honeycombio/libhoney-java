@@ -6,7 +6,7 @@
 
     <groupId>io.honeycomb.libhoney</groupId>
     <artifactId>libhoney-java-parent</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
     <packaging>pom</packaging>    
     <name>libhoney-java (Parent)</name>
     <description>The Java client for sending events to Honeycomb (parent module)</description>
