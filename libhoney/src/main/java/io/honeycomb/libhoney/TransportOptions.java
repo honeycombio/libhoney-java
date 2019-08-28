@@ -76,7 +76,7 @@ public class TransportOptions {
                      final Long maximumHttpRequestShutdownWait,
                      final String additionalUserAgent,
                      final HttpHost proxy,
-                     final SSLContext sslContext) {
+                     final SSLContext sslContext,
                      final CredentialsProvider credentialsProvider) {
 
         //Batching-specific
@@ -297,7 +297,7 @@ public class TransportOptions {
                 maximumHttpRequestShutdownWait,
                 additionalUserAgent,
                 proxy,
-                sslContext);
+                sslContext,
                 credentialsProvider);
         }
 
