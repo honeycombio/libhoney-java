@@ -221,7 +221,7 @@ public class TransportOptions {
     }
 
     public SSLContext getSSLContext() {
-            return sslContext;
+        return sslContext;
     }
 
     public CredentialsProvider getCredentialsProvider() {
