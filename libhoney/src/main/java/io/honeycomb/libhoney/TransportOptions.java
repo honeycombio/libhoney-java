@@ -654,6 +654,7 @@ public class TransportOptions {
 
         public TransportOptions.Builder setSSLContext(final SSLContext sslContext) {
             this.sslContext = sslContext;
+            return this;
         }
 
         public CredentialsProvider getCredentialsProvider() {
