@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
+import javax.net.ssl.SSLContext;
 
 /**
  * The default {@link Transport} used by the SDK.
@@ -110,6 +111,7 @@ public class BatchingHttpTransport implements Transport {
             .setMaxConnTotal(options.getMaxConnections())
             .setMaxConnPerRoute(options.getMaxHttpConnectionsPerApiHost())
             .setConnectionManagerShared(false)
+            .setSSLContext(options.getSSLContext())
             .setDefaultRequestConfig(
                 RequestConfig.custom()
                     .setProxy(options.getProxy())
@@ -125,7 +127,9 @@ public class BatchingHttpTransport implements Transport {
                 ConnectionConfig.custom()
                     .setBufferSize(options.getBufferSize())
                     .build()
-            ).build();
+            )
+            .setDefaultCredentialsProvider(options.getCredentialsProvider())
+            .build();
     }
 
 }

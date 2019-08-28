@@ -7,8 +7,10 @@ import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.http.impl.nio.reactor.IOReactorConfig;
+import org.apache.http.client.CredentialsProvider;
 
 import java.net.URI;
+import javax.net.ssl.SSLContext;
 
 import static io.honeycomb.libhoney.utils.ObjectUtils.getOrDefault;
 
@@ -55,6 +57,8 @@ public class TransportOptions {
     private final long maximumHttpRequestShutdownWait;
     private final String additionalUserAgent;
     private final HttpHost proxy;
+    private final SSLContext sslContext;
+    private final CredentialsProvider credentialsProvider;
 
     // parameter list is fine, since it's only used by the builder
     @SuppressWarnings("PMD.ExcessiveParameterList")
@@ -71,7 +75,9 @@ public class TransportOptions {
                      final Integer ioThreadCount,
                      final Long maximumHttpRequestShutdownWait,
                      final String additionalUserAgent,
-                     final HttpHost proxy) {
+                     final HttpHost proxy,
+                     final SSLContext sslContext,
+                     final CredentialsProvider credentialsProvider) {
 
         //Batching-specific
         this.batchSize = getOrDefault(batchSize, DEFAULT_BATCH_SIZE);
@@ -91,6 +97,8 @@ public class TransportOptions {
             DEFAULT_MAX_HTTP_REQUEST_SHUTDOWN_WAIT);
         this.additionalUserAgent = getOrDefault(additionalUserAgent, DEFAULT_ADDITIONAL_USER_AGENT);
         this.proxy = proxy;
+        this.sslContext = sslContext;
+        this.credentialsProvider = credentialsProvider;
 
         Assert.isTrue(this.batchSize >= 1, "batchSize must be 1 or greater");
         Assert.isTrue(this.batchTimeoutMillis >= 1, "batchTimeoutMillis must be 1 or greater");
@@ -212,6 +220,14 @@ public class TransportOptions {
         return proxy;
     }
 
+    public SSLContext getSSLContext() {
+        return sslContext;
+    }
+
+    public CredentialsProvider getCredentialsProvider() {
+        return credentialsProvider;
+    }
+
     static TransportOptions.Builder builder() {
         return new TransportOptions.Builder();
     }
@@ -256,6 +272,8 @@ public class TransportOptions {
         private Long maximumHttpRequestShutdownWait;
         private String additionalUserAgent;
         private HttpHost proxy;
+        private SSLContext sslContext;
+        private CredentialsProvider credentialsProvider;
 
         /**
          * This creates a {@link TransportOptions} instance.
@@ -278,7 +296,9 @@ public class TransportOptions {
                 ioThreadCount,
                 maximumHttpRequestShutdownWait,
                 additionalUserAgent,
-                proxy);
+                proxy,
+                sslContext,
+                credentialsProvider);
         }
 
         /**
@@ -625,6 +645,24 @@ public class TransportOptions {
 
         public TransportOptions.Builder setProxy(final HttpHost proxy) {
             this.proxy = proxy;
+            return this;
+        }
+
+        public SSLContext getSSLContext() {
+            return sslContext;
+        }
+
+        public TransportOptions.Builder setSSLContext(final SSLContext sslContext) {
+            this.sslContext = sslContext;
+            return this;
+        }
+
+        public CredentialsProvider getCredentialsProvider() {
+            return credentialsProvider;
+        }
+
+        public TransportOptions.Builder setCredentialsProvider(final CredentialsProvider credentialsProvider) {
+            this.credentialsProvider = credentialsProvider;
             return this;
         }
     }
