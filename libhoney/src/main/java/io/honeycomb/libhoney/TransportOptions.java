@@ -7,6 +7,7 @@ import org.apache.http.HttpHost;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.apache.http.impl.nio.reactor.IOReactorConfig;
+import org.apache.http.client.CredentialsProvider;
 
 import java.net.URI;
 import javax.net.ssl.SSLContext;
@@ -57,6 +58,7 @@ public class TransportOptions {
     private final String additionalUserAgent;
     private final HttpHost proxy;
     private final SSLContext sslContext;
+    private final CredentialsProvider credentialsProvider;
 
     // parameter list is fine, since it's only used by the builder
     @SuppressWarnings("PMD.ExcessiveParameterList")
@@ -75,6 +77,7 @@ public class TransportOptions {
                      final String additionalUserAgent,
                      final HttpHost proxy,
                      final SSLContext sslContext) {
+                     final CredentialsProvider credentialsProvider) {
 
         //Batching-specific
         this.batchSize = getOrDefault(batchSize, DEFAULT_BATCH_SIZE);
@@ -95,6 +98,7 @@ public class TransportOptions {
         this.additionalUserAgent = getOrDefault(additionalUserAgent, DEFAULT_ADDITIONAL_USER_AGENT);
         this.proxy = proxy;
         this.sslContext = sslContext;
+        this.credentialsProvider = credentialsProvider;
 
         Assert.isTrue(this.batchSize >= 1, "batchSize must be 1 or greater");
         Assert.isTrue(this.batchTimeoutMillis >= 1, "batchTimeoutMillis must be 1 or greater");
@@ -217,7 +221,11 @@ public class TransportOptions {
     }
 
     public SSLContext getSSLContext() {
-        return sslContext;
+            return sslContext;
+    }
+
+    public CredentialsProvider getCredentialsProvider() {
+        return credentialsProvider;
     }
 
     static TransportOptions.Builder builder() {
@@ -265,6 +273,7 @@ public class TransportOptions {
         private String additionalUserAgent;
         private HttpHost proxy;
         private SSLContext sslContext;
+        private CredentialsProvider credentialsProvider;
 
         /**
          * This creates a {@link TransportOptions} instance.
@@ -289,6 +298,7 @@ public class TransportOptions {
                 additionalUserAgent,
                 proxy,
                 sslContext);
+                credentialsProvider);
         }
 
         /**
@@ -644,6 +654,14 @@ public class TransportOptions {
 
         public TransportOptions.Builder setSSLContext(final SSLContext sslContext) {
             this.sslContext = sslContext;
+        }
+
+        public CredentialsProvider getCredentialsProvider() {
+            return credentialsProvider;
+        }
+
+        public TransportOptions.Builder setCredentialsProvider(final CredentialsProvider credentialsProvider) {
+            this.credentialsProvider = credentialsProvider;
             return this;
         }
     }

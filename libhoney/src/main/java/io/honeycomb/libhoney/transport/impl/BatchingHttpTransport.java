@@ -127,7 +127,9 @@ public class BatchingHttpTransport implements Transport {
                 ConnectionConfig.custom()
                     .setBufferSize(options.getBufferSize())
                     .build()
-            ).build();
+            )
+            .setDefaultCredentialsProvider(options.getCredentialsProvider())
+            .build();
     }
 
 }
