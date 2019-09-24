@@ -122,7 +122,7 @@ public class HoneycombBatchConsumerTest {
         consumer.consume(events);
         final HttpUriRequest value = captureRequest();
 
-        assertThat(value.getFirstHeader("user-agent").getValue()).isEqualTo("libhoneycomb-java/1.0.0");
+        assertThat(value.getFirstHeader("user-agent").getValue()).contains("libhoneycomb-java/");
     }
 
     @Test
@@ -133,7 +133,7 @@ public class HoneycombBatchConsumerTest {
         consumer.consume(events);
         final HttpUriRequest value = captureRequest();
 
-        assertThat(value.getFirstHeader("user-agent").getValue()).isEqualTo("libhoneycomb-java/1.0.0");
+        assertThat(value.getFirstHeader("user-agent").getValue()).contains("libhoneycomb-java/");
     }
 
     @Test
@@ -144,7 +144,9 @@ public class HoneycombBatchConsumerTest {
         consumer.consume(events);
         final HttpUriRequest value = captureRequest();
 
-        assertThat(value.getFirstHeader("user-agent").getValue()).isEqualTo("libhoneycomb-java/1.0.0 beeline/1.0.0");
+        String userAgent = value.getFirstHeader("user-agent").getValue();
+        assertThat(userAgent).contains("libhoneycomb-java/");
+        assertThat(userAgent).contains("beeline/");
     }
 
 
