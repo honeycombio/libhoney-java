@@ -1,28 +1,45 @@
-version: 2
-jobs:
-  build:
-    docker:
-      - image: circleci/openjdk:8-jdk-stretch
-
-    working_directory: ~/libhoney-java
-
-    environment:
-      # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
-      TERM: dumb
-
+version: 2.1
+commands:
+  runtests:
     steps:
       - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
+      - restore_cache: # Download and cache dependencies
           key: libhoney-java-{{ checksum "pom.xml" }}
-
       - run: mvn dependency:go-offline # gets the project dependencies
-
       - save_cache: # saves the project dependencies
           paths:
             - ~/.m2
           key: libhoney-java-{{ checksum "pom.xml" }}
-
       - run: mvn package # run the actual tests
+executors:
+  java8:
+    working_directory: ~/libhoney-java
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+    docker:
+      - image: circleci/openjdk:8-jdk-stretch
+  java9:
+    working_directory: ~/libhoney-java
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+    docker:
+      - image: circleci/openjdk:9-jdk-stretch
+jobs:
+  java8:
+    executor: java8
+    steps:
+      - runtests
+  java9:
+    executor: java9
+    steps:
+      - runtests
+workflows:
+  version: 2
+  build:
+    jobs:
+      - java8
+      - java9
