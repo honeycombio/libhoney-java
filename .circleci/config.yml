@@ -5,12 +5,12 @@ commands:
       - checkout
       - restore_cache: # Download and cache dependencies
           key: libhoney-java-{{ checksum "pom.xml" }}
-      - run: mvn dependency:go-offline # gets the project dependencies
+      - run: ./mvnw dependency:go-offline # gets the project dependencies
       - save_cache: # saves the project dependencies
           paths:
             - ~/.m2
           key: libhoney-java-{{ checksum "pom.xml" }}
-      - run: mvn package # run the actual tests
+      - run: ./mvnw package # run the actual tests
 executors:
   java8:
     working_directory: ~/libhoney-java
