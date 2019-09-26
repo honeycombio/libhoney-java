@@ -27,7 +27,7 @@ executors:
       JVM_OPTS: -Xmx3200m
       TERM: dumb
     docker:
-      - image: circleci/openjdk:9-jdk-stretch
+      - image: circleci/openjdk:9-jdk-sid
 jobs:
   java8:
     executor: java8
