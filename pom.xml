@@ -189,6 +189,7 @@
                 <configuration>
                     <source>${jdkVersion}</source>
                     <target>${jdkVersion}</target>
+                    <release>7</release>
                 </configuration>
             </plugin>
 
