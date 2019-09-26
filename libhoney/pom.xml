@@ -154,9 +154,6 @@
                 <!-- The following block is to fix JDK11-->
                 <configuration>
                     <source>1.7</source>
-                    <links>
-                        <link>http://docs.oracle.com/javase/7/docs/api/</link>
-                    </links>
                 </configuration>
                 <!-- End JDK11 fix-->
             </plugin>
