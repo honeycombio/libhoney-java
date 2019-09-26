@@ -142,17 +142,26 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${javadocPluginVersion}</version>
+                <!-- The following block is to fix JDK11-->
+                <configuration>
+                    <source>7</source>
+                </configuration>
+                <!-- End JDK11 fix-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
                 <version>${xrefPluginVersion}</version>
             </plugin>
+            <!-- The following block is to fix JDK10-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M1</version>
+                <configuration>
+                    <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+                </configuration>
             </plugin>
+            <!-- End JDK10 fix-->
         </plugins>
     </reporting>
 
