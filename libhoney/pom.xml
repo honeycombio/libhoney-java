@@ -162,6 +162,7 @@
                     <useManifestOnlyJar>false</useManifestOnlyJar>
                     <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
                     <useSystemClassLoader>false</useSystemClassLoader>
+                    <reuseForks>true</reuseForks>
                     <forkMode>0</forkMode>
                 </configuration>
             </plugin>
