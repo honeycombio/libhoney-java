@@ -159,6 +159,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefireVersion}</version>
                 <configuration>
+                    <useManifestOnlyJar>false</useManifestOnlyJar>
                     <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
                     <useSystemClassLoader>false</useSystemClassLoader>
                     <forkMode>0</forkMode>
