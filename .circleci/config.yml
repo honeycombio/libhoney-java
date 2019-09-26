@@ -28,6 +28,22 @@ executors:
       TERM: dumb
     docker:
       - image: circleci/openjdk:9-jdk-sid
+  java10:
+    working_directory: ~/libhoney-java
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+    docker:
+      - image: circleci/openjdk:10-jdk-sid
+  java11:
+    working_directory: ~/libhoney-java
+    environment:
+      # Customize the JVM maximum heap limit
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
+    docker:
+      - image: circleci/openjdk:11-jdk-stretch
 jobs:
   java8:
     executor: java8
@@ -35,6 +51,14 @@ jobs:
       - runtests
   java9:
     executor: java9
+    steps:
+      - runtests
+  java10:
+    executor: java10
+    steps:
+      - runtests
+  java11:
+    executor: java11
     steps:
       - runtests
 workflows:
