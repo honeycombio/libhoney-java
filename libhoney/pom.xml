@@ -109,14 +109,13 @@
                         </dependency>
                     </dependencies>
                 </plugin>
-                <!-- The following block is to fix JDK10-->
+                <!-- The following block is to fix JDK10 builds-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${surefireVersion}</version>
                     <configuration>
                         <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
-<!--                        <useSystemClassLoader>false</useSystemClassLoader>-->
                     </configuration>
                 </plugin>
                 <!-- End JDK10 fix-->
@@ -154,7 +153,10 @@
                 <version>${javadocPluginVersion}</version>
                 <!-- The following block is to fix JDK11-->
                 <configuration>
-                    <source>7</source>
+                    <source>1.7</source>
+                    <links>
+                        <link>http://docs.oracle.com/javase/7/docs/api/</link>
+                    </links>
                 </configuration>
                 <!-- End JDK11 fix-->
             </plugin>
