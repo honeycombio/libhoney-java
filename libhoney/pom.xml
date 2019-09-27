@@ -119,6 +119,16 @@
                     </configuration>
                 </plugin>
                 <!-- End JDK10 fix-->
+                <!-- The following block is to fix JDK11-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${javadocPluginVersion}</version>
+                    <configuration>
+                        <source>7</source>
+                    </configuration>
+                </plugin>
+                <!-- End JDK11 fix-->
             </plugins>
         </pluginManagement>
     </build>
@@ -151,11 +161,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${javadocPluginVersion}</version>
-                <!-- The following block is to fix JDK11-->
-                <configuration>
-                    <source>8</source>
-                </configuration>
-                <!-- End JDK11 fix-->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
