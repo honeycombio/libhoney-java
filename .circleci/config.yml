@@ -1,71 +1,57 @@
 version: 2.1
 commands:
   runtests:
+    parameters:
+      javaversion:
+        type: string
+        default: "8"
     steps:
       - checkout
       - restore_cache: # Download and cache dependencies
-          key: libhoney-java-{{ checksum "pom.xml" }}
+          key: libhoney-java-{{ checksum "pom.xml" }}-<< parameters.javaversion >>
       - run: ./mvnw dependency:go-offline # gets the project dependencies
       - save_cache: # saves the project dependencies
           paths:
             - ~/.m2
-          key: libhoney-java-{{ checksum "pom.xml" }}
+          key: libhoney-java-{{ checksum "pom.xml" }}-<< parameters.javaversion >>
       - run: ./mvnw package # run the actual tests
 executors:
-  java8:
+  java:
+    parameters:
+      javaversion:
+        type: string
+        default: "8"
     working_directory: ~/libhoney-java
     environment:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
     docker:
-      - image: circleci/openjdk:8-jdk-stretch
-  java9:
-    working_directory: ~/libhoney-java
-    environment:
-      # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
-      TERM: dumb
-    docker:
-      - image: circleci/openjdk:9-jdk-sid
-  java10:
-    working_directory: ~/libhoney-java
-    environment:
-      # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
-      TERM: dumb
-    docker:
-      - image: circleci/openjdk:10-jdk-sid
-  java11:
-    working_directory: ~/libhoney-java
-    environment:
-      # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
-      TERM: dumb
-    docker:
-      - image: circleci/openjdk:11-jdk-stretch
+      - image: circleci/openjdk:<< parameters.javaversion >>-jdk
 jobs:
-  java8:
-    executor: java8
-    steps:
-      - runtests
-  java9:
-    executor: java9
-    steps:
-      - runtests
-  java10:
-    executor: java10
-    steps:
-      - runtests
-  java11:
-    executor: java11
+  java:
+    parameters:
+      javaversion:
+        type: string
+        default: "8"
+    executor:
+      name: java
+      javaversion: "<< parameters.javaversion >>"
     steps:
       - runtests
 workflows:
   version: 2
   build:
     jobs:
-      - java8
-      - java9
-      - java10
-      - java11
+      - java:
+          javaversion: "8"
+          name: JDK-8
+      - java:
+          javaversion: "9"
+          name: JDK-9
+      - java:
+          javaversion: "10"
+          name: JDK-10
+      - java:
+          javaversion: "11"
+          name: JDK-11
