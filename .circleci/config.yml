@@ -1,6 +1,10 @@
 version: 2.1
 commands:
   runtests:
+    parameters:
+      javaversion:
+        type: string
+        default: "8"
     steps:
       - checkout
       - restore_cache: # Download and cache dependencies
@@ -23,7 +27,7 @@ executors:
       JVM_OPTS: -Xmx3200m
       TERM: dumb
     docker:
-      - image: circleci/openjdk:<<parameters.javaversion>>-jdk
+      - image: circleci/openjdk:<< parameters.javaversion >>-jdk
 #  java9:
 #    working_directory: ~/libhoney-java
 #    environment:
@@ -76,7 +80,7 @@ workflows:
   build:
     jobs:
       - java8:
-          - javaversion: "8"
+          javaversion: "8"
 #      - java9
 #      - java10
 #      - java11
