@@ -108,8 +108,27 @@
                             <version>${pmdCoreVersion}</version>
                         </dependency>
                     </dependencies>
-
                 </plugin>
+                <!-- The following block is to fix JDK10 builds-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${surefireVersion}</version>
+                    <configuration>
+                        <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+                    </configuration>
+                </plugin>
+                <!-- End JDK10 fix-->
+                <!-- The following block is to fix JDK11-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${javadocPluginVersion}</version>
+                    <configuration>
+                        <source>7</source>
+                    </configuration>
+                </plugin>
+                <!-- End JDK11 fix-->
             </plugins>
         </pluginManagement>
     </build>
