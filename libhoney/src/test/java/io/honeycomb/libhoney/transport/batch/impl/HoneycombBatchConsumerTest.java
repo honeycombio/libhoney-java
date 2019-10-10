@@ -40,6 +40,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -145,8 +146,7 @@ public class HoneycombBatchConsumerTest {
         final HttpUriRequest value = captureRequest();
 
         String userAgent = value.getFirstHeader("user-agent").getValue();
-        assertThat(userAgent).contains("libhoneycomb-java/");
-        assertThat(userAgent).contains("beeline/");
+        assertThat(userAgent).matches(Pattern.compile("libhoneycomb-java/\\d+\\.\\d+\\.\\d+ beeline/\\d+\\.\\d+\\.\\d+"));
     }
 
 
