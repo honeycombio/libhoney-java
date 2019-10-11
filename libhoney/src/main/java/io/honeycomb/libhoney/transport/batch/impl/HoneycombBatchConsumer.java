@@ -54,7 +54,7 @@ public class HoneycombBatchConsumer implements BatchConsumer<ResolvedEvent> {
      * creating an actual artifact.
      */
     private static final String USER_AGENT = "libhoneycomb-java/" +
-        (LibHoney.class.getPackage().getImplementationVersion()==null ? "1.0.0" : LibHoney.class.getPackage().getImplementationVersion());
+        (LibHoney.class.getPackage().getImplementationVersion()==null ? "0.0.0" : LibHoney.class.getPackage().getImplementationVersion());
 
     private final CloseableHttpAsyncClient internalClient;
     private final ResponseObservable observable;
