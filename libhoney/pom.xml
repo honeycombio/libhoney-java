@@ -62,6 +62,18 @@
                         <transformer
                             implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer">
                         </transformer>
+                        <transformer
+                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <manifestEntries>
+                                <Implementation-Title>${project.name}</Implementation-Title>
+                                <Implementation-Version>${project.version}</Implementation-Version>
+                                <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+                                <Implementation-Title>${project.name}</Implementation-Title>
+                                <Specification-Version>${project.version}</Specification-Version>
+                                <Specification-Vendor>${project.organization.name}</Specification-Vendor>
+                            </manifestEntries>
+                        </transformer>
+
                     </transformers>
                 </configuration>
                 <executions>

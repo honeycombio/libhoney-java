@@ -1,5 +1,6 @@
 package io.honeycomb.libhoney.transport.batch.impl;
 
+import io.honeycomb.libhoney.LibHoney;
 import io.honeycomb.libhoney.eventdata.ResolvedEvent;
 import io.honeycomb.libhoney.responses.ResponseObservable;
 import io.honeycomb.libhoney.responses.impl.EventResponseFactory;
@@ -48,7 +49,12 @@ public class HoneycombBatchConsumer implements BatchConsumer<ResolvedEvent> {
 
     private static final String BATCH_ENDPOINT_FORMAT = "/1/batch/%s";
     private static final String WRITE_KEY_HEADER = "X-Honeycomb-Team";
-    private static final String USER_AGENT = "libhoneycomb-java/1.0.0";
+    /** The following variable defaults to "libhoneycomb-java/1.0.0 as the implementation version is injected by
+     * the Maven build process and will not be available when running from IDE. This ensure unit tests run even without
+     * creating an actual artifact.
+     */
+    private static final String USER_AGENT = "libhoneycomb-java/" +
+        (LibHoney.class.getPackage().getImplementationVersion()==null ? "0.0.0" : LibHoney.class.getPackage().getImplementationVersion());
 
     private final CloseableHttpAsyncClient internalClient;
     private final ResponseObservable observable;
