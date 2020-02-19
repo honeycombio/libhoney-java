@@ -123,7 +123,7 @@ public class HoneycombBatchConsumerTest {
         consumer.consume(events);
         final HttpUriRequest value = captureRequest();
 
-        assertThat(value.getFirstHeader("user-agent").getValue()).matches(Pattern.compile("libhoneycomb-java/\\d+\\.\\d+\\.\\d+"));
+        assertThat(value.getFirstHeader("user-agent").getValue()).matches(Pattern.compile("libhoney-java/\\d+\\.\\d+\\.\\d+"));
     }
 
     @Test
@@ -134,7 +134,7 @@ public class HoneycombBatchConsumerTest {
         consumer.consume(events);
         final HttpUriRequest value = captureRequest();
 
-        assertThat(value.getFirstHeader("user-agent").getValue()).matches(Pattern.compile("libhoneycomb-java/\\d+\\.\\d+\\.\\d+"));
+        assertThat(value.getFirstHeader("user-agent").getValue()).matches(Pattern.compile("libhoney-java/\\d+\\.\\d+\\.\\d+"));
     }
 
     @Test
@@ -146,7 +146,7 @@ public class HoneycombBatchConsumerTest {
         final HttpUriRequest value = captureRequest();
 
         String userAgent = value.getFirstHeader("user-agent").getValue();
-        assertThat(userAgent).matches(Pattern.compile("libhoneycomb-java/\\d+\\.\\d+\\.\\d+ beeline/\\d+\\.\\d+\\.\\d+"));
+        assertThat(userAgent).matches(Pattern.compile("libhoney-java/\\d+\\.\\d+\\.\\d+ beeline/\\d+\\.\\d+\\.\\d+"));
     }
 
 

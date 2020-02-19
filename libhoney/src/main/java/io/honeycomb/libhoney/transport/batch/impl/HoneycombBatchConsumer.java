@@ -53,7 +53,7 @@ public class HoneycombBatchConsumer implements BatchConsumer<ResolvedEvent> {
      * the Maven build process and will not be available when running from IDE. This ensure unit tests run even without
      * creating an actual artifact.
      */
-    private static final String USER_AGENT = "libhoneycomb-java/" +
+    private static final String USER_AGENT = "libhoney-java/" +
         (LibHoney.class.getPackage().getImplementationVersion()==null ? "0.0.0" : LibHoney.class.getPackage().getImplementationVersion());
 
     private final CloseableHttpAsyncClient internalClient;
