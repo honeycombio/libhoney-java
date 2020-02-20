@@ -82,7 +82,7 @@ public class End2EndTest {
         verify(postRequestedFor(urlPathMatching("/1/batch/testDataSet"))
             .withHeader("Content-Type", containing("application/json"))
             .withHeader("X-Honeycomb-Team", equalTo("testWriteKey"))
-            .withHeader("User-Agent", matching("libhoneycomb-java/\\d+\\.\\d+\\.\\d+"))
+            .withHeader("User-Agent", matching("libhoney-java/\\d+\\.\\d+\\.\\d+"))
             .withRequestBody(equalToJson("[" +
                 "  {" +
                 "    \"data\": {\"SimpleData\": \"SimpleValue\"}," +
@@ -108,7 +108,7 @@ public class End2EndTest {
         verify(postRequestedFor(urlPathMatching("/1/batch/testDataSet"))
             .withHeader("Content-Type", containing("application/json"))
             .withHeader("X-Honeycomb-Team", equalTo("testWriteKey"))
-            .withHeader("User-Agent", matching("libhoneycomb-java/\\d+\\.\\d+\\.\\d+"))
+            .withHeader("User-Agent", matching("libhoney-java/\\d+\\.\\d+\\.\\d+"))
             .withRequestBody(equalToJson("[" +
                 "  {" +
                 "    \"data\": {\"SimpleData\": \"SimpleValue\"}," +
@@ -167,7 +167,7 @@ public class End2EndTest {
         verify(postRequestedFor(urlPathMatching("/1/batch/testDataSet"))
             .withHeader("Content-Type", containing("application/json"))
             .withHeader("X-Honeycomb-Team", equalTo("testWriteKey"))
-            .withHeader("User-Agent", matching("libhoneycomb-java/\\d+\\.\\d+\\.\\d+"))
+            .withHeader("User-Agent", matching("libhoney-java/\\d+\\.\\d+\\.\\d+"))
             .withRequestBody(equalToJson("[" +
                 "  {" +
                 "    \"data\": {" +
@@ -291,7 +291,7 @@ public class End2EndTest {
         verify(postRequestedFor(urlPathMatching("/1/batch/testDataSet"))
             .withHeader("Content-Type", containing("application/json"))
             .withHeader("X-Honeycomb-Team", equalTo("testWriteKey"))
-            .withHeader("User-Agent", matching("libhoneycomb-java/\\d+\\.\\d+\\.\\d+"))
+            .withHeader("User-Agent", matching("libhoney-java/\\d+\\.\\d+\\.\\d+"))
         );
     }
 
