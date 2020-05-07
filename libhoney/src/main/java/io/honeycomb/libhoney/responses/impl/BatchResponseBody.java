@@ -75,8 +75,9 @@ public class BatchResponseBody {
             } catch (final IOException e) {
                 tempElements = null;
                 tempError = null;
+                String body = new String(rawHttpResponseBody);
                 tempServerApiError = new ServerApiError(
-                    "Failed to parse batch error response from response", e);
+                    "Failed to parse batch error response from response. Raw response: ```" + body + "```", e);
                 tempCategory = ServerResponseCategory.CANNOT_INFER_STATE;
             }
         }

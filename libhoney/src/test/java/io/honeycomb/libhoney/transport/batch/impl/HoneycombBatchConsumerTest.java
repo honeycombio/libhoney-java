@@ -40,6 +40,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -122,7 +123,7 @@ public class HoneycombBatchConsumerTest {
         consumer.consume(events);
         final HttpUriRequest value = captureRequest();
 
-        assertThat(value.getFirstHeader("user-agent").getValue()).isEqualTo("libhoneycomb-java/1.0.0");
+        assertThat(value.getFirstHeader("user-agent").getValue()).matches(Pattern.compile("libhoney-java/\\d+\\.\\d+\\.\\d+"));
     }
 
     @Test
@@ -133,7 +134,7 @@ public class HoneycombBatchConsumerTest {
         consumer.consume(events);
         final HttpUriRequest value = captureRequest();
 
-        assertThat(value.getFirstHeader("user-agent").getValue()).isEqualTo("libhoneycomb-java/1.0.0");
+        assertThat(value.getFirstHeader("user-agent").getValue()).matches(Pattern.compile("libhoney-java/\\d+\\.\\d+\\.\\d+"));
     }
 
     @Test
@@ -144,7 +145,8 @@ public class HoneycombBatchConsumerTest {
         consumer.consume(events);
         final HttpUriRequest value = captureRequest();
 
-        assertThat(value.getFirstHeader("user-agent").getValue()).isEqualTo("libhoneycomb-java/1.0.0 beeline/1.0.0");
+        String userAgent = value.getFirstHeader("user-agent").getValue();
+        assertThat(userAgent).matches(Pattern.compile("libhoney-java/\\d+\\.\\d+\\.\\d+ beeline/\\d+\\.\\d+\\.\\d+"));
     }
 
 

@@ -58,7 +58,7 @@ public class BatchResponseBodyTest {
     }
 
     @Test
-    public void GIVEN_OkStatusCode_BUT_anInvalidBatchResponse_EXPECT_batchErrorToBeIntialised() {
+    public void GIVEN_OkStatusCode_BUT_anInvalidBatchResponse_EXPECT_batchErrorToBeInitialised() {
         final String batchBody = "[" +
             "  {" +
             "    \"status\": 202" +
@@ -77,7 +77,7 @@ public class BatchResponseBodyTest {
     }
 
     @Test
-    public void GIVEN_NonOkStatusCode_EXPECT_batchErrorToBeIntialised() {
+    public void GIVEN_NonOkStatusCode_EXPECT_batchErrorToBeInitialised() {
         final String errorBody = "{\"error\": \"Error!\"}";
 
         final int notOkCode = 400;
@@ -88,7 +88,7 @@ public class BatchResponseBodyTest {
     }
 
     @Test
-    public void GIVEN_NonOkStatusCode_AND_InvalidResponseBody_EXPECT_batchErrorToBeIntialised() {
+    public void GIVEN_NonOkStatusCode_AND_InvalidResponseBody_EXPECT_batchErrorToBeInitialised() {
         final String errorBody = "{\"message\": \"Error!\"}"; // wrong key
 
         final int okCode = 401;
@@ -97,6 +97,20 @@ public class BatchResponseBodyTest {
         assertIsCannotInferState(batchResponseBody);
         assertThat(batchResponseBody.getServerApiError().getCause()).isInstanceOf(IOException.class);
         assertThat(batchResponseBody.getServerApiError().getMessage()).contains("Failed to parse batch error response");
+    }
+
+    @Test
+    public void GIVEN_503_AND_InvalidResponseBody_EXPECT_RawResponse_in_Message() {
+        final String errorBody = "<html><head>test</head><body>This is probably coming from proxy server rather than honeycomb</body></html>";
+
+        final int okCode = 503;
+        final BatchResponseBody batchResponseBody = new BatchResponseBody(errorBody.getBytes(StandardCharsets.UTF_8), okCode);
+
+        assertIsCannotInferState(batchResponseBody);
+        assertThat(batchResponseBody.getServerApiError().getCause()).isInstanceOf(IOException.class);
+        final String expectedResponse = "Failed to parse batch error response from response. Raw response: " +
+            "```<html><head>test</head><body>This is probably coming from proxy server rather than honeycomb</body></html>```";
+        assertThat(batchResponseBody.getServerApiError().getMessage()).isEqualTo(expectedResponse);
     }
 
     @Test
