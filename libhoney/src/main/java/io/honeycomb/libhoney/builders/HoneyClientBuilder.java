@@ -37,16 +37,20 @@ public class HoneyClientBuilder {
     TransportOptions.Builder transportOptionsBuilder = new TransportOptions.Builder();
     Options.Builder optionsBuilder = new Options.Builder();
 
-    public HoneyClient build() throws IllegalArgumentException, URISyntaxException {
+    /**
+     * Build new HoneyClient instance
+     * @return the new HoneyClient instance
+     */
+    public HoneyClient build() {
         configureOptionBuilder();
         configureTransportOptionBuilder();
         final HoneyClient client = new HoneyClient(optionsBuilder.build(), transportOptionsBuilder.build());
-        customizeClient(client);
+        configureClient(client);
         return client;
 
     }
 
-    private void customizeClient(HoneyClient client) {
+    private void configureClient(HoneyClient client) {
         if(!responseObservers.isEmpty()){
             for (ResponseObserver responseObserver : responseObservers) {
                 client.addResponseObserver(responseObserver);
@@ -57,14 +61,10 @@ public class HoneyClientBuilder {
         }
     }
 
-    private TransportOptions.Builder configureTransportOptionBuilder() {
-        final TransportOptions.Builder transportBuilder = new TransportOptions.Builder();
-
+    private void configureTransportOptionBuilder() {
         if(!credentialMap.isEmpty()){
-
-            transportBuilder.setCredentialsProvider(createCredentialsProvider());
+            transportOptionsBuilder.setCredentialsProvider(createCredentialsProvider());
         }
-        return transportBuilder;
     }
 
     private CredentialsProvider createCredentialsProvider() {
@@ -79,15 +79,13 @@ public class HoneyClientBuilder {
         return provider;
     }
 
-    private Options.Builder configureOptionBuilder() throws URISyntaxException {
+    private void configureOptionBuilder() {
         if(!globalFields.isEmpty()){
             optionsBuilder.setGlobalFields(globalFields);
         }
         if(!globalDynamicFields.isEmpty()){
             optionsBuilder.setGlobalDynamicFields(globalDynamicFields);
         }
-
-        return optionsBuilder;
     }
 
     public HoneyClientBuilder addGlobalField(String name, Object field) {
