@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.honeycomb.libhoney</groupId>
         <artifactId>libhoney-java-parent</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>libhoney-java</artifactId>
@@ -99,6 +99,14 @@
                     </rulesets>
                     <!-- enable incremental analysis -->
                     <analysisCache>true</analysisCache>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
                 </configuration>
             </plugin>
         </plugins>
