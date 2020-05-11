@@ -104,112 +104,112 @@ public class HoneyClientBuilder {
         return this;
     }
 
-    public HoneyClientBuilder setSampleRate(int sampleRate) {
+    public HoneyClientBuilder sampleRate(int sampleRate) {
         optionsBuilder.setSampleRate(sampleRate);
         return this;
     }
 
-    public HoneyClientBuilder setEventPostProcessor(EventPostProcessor eventPostProcessor) {
+    public HoneyClientBuilder eventPostProcessor(EventPostProcessor eventPostProcessor) {
         optionsBuilder.setEventPostProcessor(eventPostProcessor);
         return this;
     }
 
-    public HoneyClientBuilder setBatchSize(int batchSize) {
+    public HoneyClientBuilder batchSize(int batchSize) {
         transportOptionsBuilder.setBatchSize(batchSize);
         return this;
     }
 
-    public HoneyClientBuilder setBatchTimeoutMillis(long batchTimeoutMillis) {
+    public HoneyClientBuilder batchTimeoutMillis(long batchTimeoutMillis) {
         transportOptionsBuilder.setBatchTimeoutMillis(batchTimeoutMillis);
         return this;
     }
 
-    public HoneyClientBuilder setQueueCapacity(int queueCapacity) {
+    public HoneyClientBuilder queueCapacity(int queueCapacity) {
         transportOptionsBuilder.setQueueCapacity(queueCapacity);
         return this;
     }
 
-    public HoneyClientBuilder setMaximumPendingBatchRequests(int maximumPendingBatchRequests) {
+    public HoneyClientBuilder maximumPendingBatchRequests(int maximumPendingBatchRequests) {
         transportOptionsBuilder.setMaximumPendingBatchRequests(maximumPendingBatchRequests);
         return this;
     }
 
-    public HoneyClientBuilder setMaxPendingBatchRequests(int maxPendingBatchRequests) {
+    public HoneyClientBuilder maxPendingBatchRequests(int maxPendingBatchRequests) {
         transportOptionsBuilder.setMaximumPendingBatchRequests(maxPendingBatchRequests);
         return this;
     }
 
-    public HoneyClientBuilder setMaxConnections(int maxConnections) {
+    public HoneyClientBuilder maxConnections(int maxConnections) {
         transportOptionsBuilder.setMaxConnections(maxConnections);
         return this;
     }
 
-    public HoneyClientBuilder setMaxConnectionsPerApiHost(int maxConnectionsPerApiHost) {
+    public HoneyClientBuilder maxConnectionsPerApiHost(int maxConnectionsPerApiHost) {
         transportOptionsBuilder.setMaxConnectionsPerApiHost(maxConnectionsPerApiHost);
         return this;
     }
 
-    public HoneyClientBuilder setConnectTimeout(int connectTimeout) {
+    public HoneyClientBuilder connectTimeout(int connectTimeout) {
         transportOptionsBuilder.setConnectTimeout(connectTimeout);
         return this;
     }
 
-    public HoneyClientBuilder setConnectionRequestTimeout(int connectionRequestTimeout) {
+    public HoneyClientBuilder connectionRequestTimeout(int connectionRequestTimeout) {
         transportOptionsBuilder.setConnectionRequestTimeout(connectionRequestTimeout);
         return this;
     }
 
-    public HoneyClientBuilder setSocketTimeout(int socketTimeout) {
+    public HoneyClientBuilder socketTimeout(int socketTimeout) {
         transportOptionsBuilder.setSocketTimeout(socketTimeout);
         return this;
     }
 
-    public HoneyClientBuilder setBufferSize(int bufferSize) {
+    public HoneyClientBuilder bufferSize(int bufferSize) {
         transportOptionsBuilder.setBufferSize(bufferSize);
         return this;
     }
 
-    public HoneyClientBuilder setIoThreadCount(int ioThreadCount) {
+    public HoneyClientBuilder ioThreadCount(int ioThreadCount) {
         transportOptionsBuilder.setIoThreadCount(ioThreadCount);
         return this;
     }
 
-    public HoneyClientBuilder setMaximumHttpRequestShutdownWait(long maximumHttpRequestShutdownWait) {
+    public HoneyClientBuilder maximumHttpRequestShutdownWait(long maximumHttpRequestShutdownWait) {
         transportOptionsBuilder.setMaximumHttpRequestShutdownWait(maximumHttpRequestShutdownWait);
         return this;
     }
 
-    public HoneyClientBuilder setAdditionalUserAgent(String additionalUserAgent) {
+    public HoneyClientBuilder additionalUserAgent(String additionalUserAgent) {
         transportOptionsBuilder.setAdditionalUserAgent(additionalUserAgent);
         return this;
     }
 
-    public HoneyClientBuilder setProxyNoCredentials(String proxyHost) {
+    public HoneyClientBuilder proxyNoCredentials(String proxyHost) {
         transportOptionsBuilder.setProxy(new HttpHost(proxyHost));
         return this;
     }
 
-    public HoneyClientBuilder setSSLContext(SSLContext sslContext) {
+    public HoneyClientBuilder sslContext(SSLContext sslContext) {
         transportOptionsBuilder.setSSLContext(sslContext);
         return this;
     }
 
-    public HoneyClientBuilder setDataSet(String dataSet) {
+    public HoneyClientBuilder dataSet(String dataSet) {
         optionsBuilder.setDataset(dataSet);
         return this;
     }
 
-    public HoneyClientBuilder setApiHost(String apiHost) throws URISyntaxException {
+    public HoneyClientBuilder apiHost(String apiHost) throws URISyntaxException {
         optionsBuilder.setApiHost(new URI(apiHost));
         return this;
     }
 
-    public HoneyClientBuilder setWriteKey(String writeKey) {
+    public HoneyClientBuilder writeKey(String writeKey) {
         optionsBuilder.setWriteKey(writeKey);
         return this;
     }
 
-    public HoneyClientBuilder setDebugFlag(boolean flag){
+    public HoneyClientBuilder debug(boolean flag){
         this.debugEnabled = flag;
         return this;
     }
