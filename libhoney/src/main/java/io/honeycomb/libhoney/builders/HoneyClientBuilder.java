@@ -40,7 +40,7 @@ public class HoneyClientBuilder {
 
     /**
      * Build new HoneyClient instance as configured by calling the various builder methods previous to this call.
-     * <p><h3>Example</h3></p>
+     * <h3>Example</h3>
      * <pre>{@code
      * HoneyClient client = new HoneyClientBuilder()
      *                          .dataSet("dataset")
