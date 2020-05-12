@@ -40,8 +40,7 @@ public class HoneyClientBuilder {
 
     /**
      * Build new HoneyClient instance as configured by calling the various builder methods previous to this call.
-     * <p/>
-     * <h3>Example</h3>
+     * <p><h3>Example</h3></p>
      * <pre>{@code
      * HoneyClient client = new HoneyClientBuilder()
      *                          .dataSet("dataset")
@@ -133,7 +132,7 @@ public class HoneyClientBuilder {
 
     /**
      * Use this method to configure the HTTP client to use a proxy that needs authentication.
-     * <p/>
+     * <p>
      * For configuring a proxy server without authentication see: {@link #addProxyNoCredential(String)}
      *
      * @param proxyHost hostname of the proxy, frequently FQDN of the server
@@ -204,7 +203,7 @@ public class HoneyClientBuilder {
      * <p>
      * Default: 100
      *
-     * @param batchTimeoutMillis milliseconds to send non-empty but not-full batch.
+     * @param batchTimeoutMillis max milliseconds to send a non-empty but not-full batch.
      */
     public HoneyClientBuilder batchTimeoutMillis(final long batchTimeoutMillis) {
         transportOptionsBuilder.setBatchTimeoutMillis(batchTimeoutMillis);
@@ -400,7 +399,7 @@ public class HoneyClientBuilder {
 
     /**
      * Use this method to configure the HTTP client to use a proxy without authentication.
-     * <p/>
+     * <p>
      * For configuring a proxy server with authentication see: {@link #addProxyCredential(String, String, String)}
      *
      * @param host hostname of the proxy, frequently FQDN of the server
@@ -437,6 +436,7 @@ public class HoneyClientBuilder {
      *
      * @param apiHost to set.
      * @see Options.Builder#setApiHost(java.net.URI)
+     * @throws URISyntaxException
      */
     public HoneyClientBuilder apiHost(final String apiHost) throws URISyntaxException {
         optionsBuilder.setApiHost(new URI(apiHost));
