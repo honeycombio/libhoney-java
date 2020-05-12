@@ -23,19 +23,13 @@ import java.util.List;
 import java.util.Map;
 
 public class HoneyClientBuilder {
-    private List<ResponseObserver> responseObservers = new ArrayList<>();
-    private boolean debugEnabled = false;
-
-    // HoneyClient Options START
     private final Map<String, Object> globalFields = new HashMap<>();
     private final Map<String, ValueSupplier<?>> globalDynamicFields = new HashMap<>();
-    // HoneyClient Options END
-
     private final Map<String, Credentials> credentialMap = new HashMap<>();
-    // HoneyClient TransportOptions END
-
     protected TransportOptions.Builder transportOptionsBuilder = new TransportOptions.Builder();
     protected Options.Builder optionsBuilder = new Options.Builder();
+    private List<ResponseObserver> responseObservers = new ArrayList<>();
+    private boolean debugEnabled = false;
 
     /**
      * Build new HoneyClient instance
@@ -51,18 +45,18 @@ public class HoneyClientBuilder {
     }
 
     private void configureClient(HoneyClient client) {
-        if(!responseObservers.isEmpty()){
+        if (!responseObservers.isEmpty()) {
             for (ResponseObserver responseObserver : responseObservers) {
                 client.addResponseObserver(responseObserver);
             }
         }
-        if(debugEnabled){
+        if (debugEnabled) {
             client.addResponseObserver(new DefaultDebugResponseObserver());
         }
     }
 
     private void configureTransportOptionBuilder() {
-        if(!credentialMap.isEmpty()){
+        if (!credentialMap.isEmpty()) {
             transportOptionsBuilder.setCredentialsProvider(createCredentialsProvider());
         }
     }
@@ -80,10 +74,10 @@ public class HoneyClientBuilder {
     }
 
     private void configureOptionBuilder() {
-        if(!globalFields.isEmpty()){
+        if (!globalFields.isEmpty()) {
             optionsBuilder.setGlobalFields(globalFields);
         }
-        if(!globalDynamicFields.isEmpty()){
+        if (!globalDynamicFields.isEmpty()) {
             optionsBuilder.setGlobalDynamicFields(globalDynamicFields);
         }
     }
@@ -205,7 +199,7 @@ public class HoneyClientBuilder {
         return this;
     }
 
-    public HoneyClientBuilder debug(boolean flag){
+    public HoneyClientBuilder debug(boolean flag) {
         this.debugEnabled = flag;
         return this;
     }

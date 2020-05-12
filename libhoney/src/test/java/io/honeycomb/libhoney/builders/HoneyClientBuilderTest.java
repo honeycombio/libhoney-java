@@ -6,6 +6,9 @@ import io.honeycomb.libhoney.TransportOptions;
 import io.honeycomb.libhoney.ValueSupplier;
 import io.honeycomb.libhoney.responses.ResponseObservable;
 import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.Credentials;
+import org.apache.http.client.CredentialsProvider;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,6 +48,19 @@ public class HoneyClientBuilderTest {
 
         when(optionBuilder.build()).thenCallRealMethod();
         when(transportBuilder.build()).thenCallRealMethod();
+    }
+
+    @Test
+    public void testAddProxyCredentials() {
+        final HoneyClient client = builder.addProxyCredential("host:80", "user", "pass").build();
+        verify(transportBuilder, times(1)).setCredentialsProvider(any(CredentialsProvider.class));
+        final CredentialsProvider actualValue = transportBuilder.getCredentialsProvider();
+        final Credentials credentials = actualValue.getCredentials(AuthScope.ANY);
+        Assert.assertNotNull("Expected proxy credential to be found", credentials);
+        Assert.assertEquals("Expected proxy user to match", "user", credentials.getUserPrincipal().getName());
+        Assert.assertEquals("Expected password to match", "pass", credentials.getPassword());
+        verify(transportBuilder, times(1)).getCredentialsProvider();
+        completeNegativeVerification();
     }
 
     @Test
