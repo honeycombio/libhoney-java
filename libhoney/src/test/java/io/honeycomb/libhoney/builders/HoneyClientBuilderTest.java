@@ -30,6 +30,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+@SuppressWarnings("resource")
 @RunWith(MockitoJUnitRunner.class)
 public class HoneyClientBuilderTest {
 
@@ -59,6 +60,7 @@ public class HoneyClientBuilderTest {
         Assert.assertNotNull("Expected proxy credential to be found", credentials);
         Assert.assertEquals("Expected proxy user to match", "user", credentials.getUserPrincipal().getName());
         Assert.assertEquals("Expected password to match", "pass", credentials.getPassword());
+        //noinspection ResultOfMethodCallIgnored
         verify(transportBuilder, times(1)).getCredentialsProvider();
         completeNegativeVerification();
     }
@@ -74,6 +76,7 @@ public class HoneyClientBuilderTest {
         final HoneyClient client = builder.addGlobalDynamicFields("name", supplier1).build();
         verify(optionBuilder, times(1)).setGlobalDynamicFields(any(Map.class));
         final Map<String, ValueSupplier<?>> actualFields = optionBuilder.getGlobalDynamicFields();
+        //noinspection ResultOfMethodCallIgnored
         verify(optionBuilder, times(1)).getGlobalDynamicFields();
         Assert.assertEquals("Expected 1 global dynamic field", 1, actualFields.size());
         Assert.assertTrue("Expected value supplier key to exist", actualFields.containsKey("name"));
@@ -142,7 +145,7 @@ public class HoneyClientBuilderTest {
 
     @Test
     public void testProxyNoCredential() {
-        final HoneyClient client = builder.proxyNoCredentials("proxyHost").build();
+        final HoneyClient client = builder.addProxyNoCredential("proxyHost").build();
         verify(transportBuilder, times(1)).setProxy(any(HttpHost.class));
         completeNegativeVerification();
     }
