@@ -34,8 +34,8 @@ public class HoneyClientBuilder {
     private final Map<String, Credentials> credentialMap = new HashMap<>();
     // HoneyClient TransportOptions END
 
-    TransportOptions.Builder transportOptionsBuilder = new TransportOptions.Builder();
-    Options.Builder optionsBuilder = new Options.Builder();
+    protected TransportOptions.Builder transportOptionsBuilder = new TransportOptions.Builder();
+    protected Options.Builder optionsBuilder = new Options.Builder();
 
     /**
      * Build new HoneyClient instance
@@ -129,10 +129,6 @@ public class HoneyClientBuilder {
         return this;
     }
 
-    public HoneyClientBuilder maximumPendingBatchRequests(int maximumPendingBatchRequests) {
-        transportOptionsBuilder.setMaximumPendingBatchRequests(maximumPendingBatchRequests);
-        return this;
-    }
 
     public HoneyClientBuilder maxPendingBatchRequests(int maxPendingBatchRequests) {
         transportOptionsBuilder.setMaximumPendingBatchRequests(maxPendingBatchRequests);
