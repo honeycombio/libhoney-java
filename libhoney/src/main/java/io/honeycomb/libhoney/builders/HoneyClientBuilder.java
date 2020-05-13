@@ -33,10 +33,10 @@ public class HoneyClientBuilder {
     private final Map<String, Object> globalFields = new HashMap<>();
     private final Map<String, ValueSupplier<?>> globalDynamicFields = new HashMap<>();
     private final Map<String, Credentials> credentialMap = new HashMap<>();
+    private final List<ResponseObserver> responseObservers = new ArrayList<>();
     protected TransportOptions.Builder transportOptionsBuilder = new TransportOptions.Builder();
     protected Options.Builder optionsBuilder = new Options.Builder();
     private boolean debugEnabled = false;
-    private final List<ResponseObserver> responseObservers = new ArrayList<>();
 
     /**
      * Build new HoneyClient instance as configured by calling the various builder methods previous to this call.
@@ -106,7 +106,7 @@ public class HoneyClientBuilder {
      *
      * @param name  the "key".
      * @param field the "value"
-     * @return this.
+     * @return HoneyClientBuilder instance
      * @see Options.Builder#setGlobalFields(java.util.Map)
      */
     public HoneyClientBuilder addGlobalField(final String name, final Object field) {
@@ -123,6 +123,7 @@ public class HoneyClientBuilder {
      *
      * @param name          the "key"
      * @param valueSupplier calculates value
+     * @return HoneyClientBuilder instance
      * @see Options.Builder#setGlobalDynamicFields(java.util.Map)
      */
     public HoneyClientBuilder addGlobalDynamicFields(final String name, final ValueSupplier<?> valueSupplier) {
@@ -138,6 +139,7 @@ public class HoneyClientBuilder {
      * @param proxyHost hostname of the proxy, frequently FQDN of the server
      * @param username  username for authentication with proxy server
      * @param password  password for authentication with proxy server
+     * @return HoneyClientBuilder instance
      */
     public HoneyClientBuilder addProxyCredential(final String proxyHost, final String username, final String password) {
         final UsernamePasswordCredentials credential = new UsernamePasswordCredentials(username, password);
@@ -154,6 +156,7 @@ public class HoneyClientBuilder {
      * Default: 1
      *
      * @param sampleRate average number of events until sample is taken.
+     * @return HoneyClientBuilder instance
      */
     public HoneyClientBuilder sampleRate(final int sampleRate) {
         optionsBuilder.setSampleRate(sampleRate);
@@ -186,6 +189,7 @@ public class HoneyClientBuilder {
      * See {@link Event#setWriteKey(String)}, {@link Event#setDataset(String)}, and {@link Event#setApiHost(URI)}.
      *
      * @param batchSize max number of events to send in single data transmission
+     * @return HoneyClientBuilder instance
      */
     public HoneyClientBuilder batchSize(final int batchSize) {
         transportOptionsBuilder.setBatchSize(batchSize);
@@ -204,6 +208,7 @@ public class HoneyClientBuilder {
      * Default: 100
      *
      * @param batchTimeoutMillis max milliseconds to send a non-empty but not-full batch.
+     * @return HoneyClientBuilder instance
      */
     public HoneyClientBuilder batchTimeoutMillis(final long batchTimeoutMillis) {
         transportOptionsBuilder.setBatchTimeoutMillis(batchTimeoutMillis);
@@ -220,6 +225,7 @@ public class HoneyClientBuilder {
      * Default: 10000
      *
      * @param queueCapacity queue size.
+     * @return HoneyClientBuilder instance
      * @see io.honeycomb.libhoney.responses.ClientRejected.RejectionReason#QUEUE_OVERFLOW
      * @see io.honeycomb.libhoney.transport.batch.BatchConsumer#consume(java.util.List)
      */
@@ -259,6 +265,7 @@ public class HoneyClientBuilder {
      * Default: 250
      *
      * @param maxPendingBatchRequests max simultaneous requests.
+     * @return HoneyClientBuilder instance
      * @see TransportOptions.Builder#setMaxConnections(int)
      */
     public HoneyClientBuilder maxPendingBatchRequests(final int maxPendingBatchRequests) {
@@ -273,6 +280,7 @@ public class HoneyClientBuilder {
      * Default: 200
      *
      * @param maxConnections maximum number of connections.
+     * @return HoneyClientBuilder instance
      * @see HttpAsyncClientBuilder#setMaxConnTotal(int)
      */
     public HoneyClientBuilder maxConnections(final int maxConnections) {
@@ -288,6 +296,7 @@ public class HoneyClientBuilder {
      * Default: 100
      *
      * @param maxConnectionsPerApiHost pool size for per hostname
+     * @return HoneyClientBuilder instance
      * @see HttpAsyncClientBuilder#setMaxConnPerRoute(int)
      */
     public HoneyClientBuilder maxConnectionsPerApiHost(final int maxConnectionsPerApiHost) {
@@ -301,6 +310,7 @@ public class HoneyClientBuilder {
      * Default: 0
      *
      * @param connectTimeout to set.
+     * @return HoneyClientBuilder instance
      * @see RequestConfig#getConnectTimeout()
      */
     public HoneyClientBuilder connectTimeout(final int connectTimeout) {
@@ -320,6 +330,7 @@ public class HoneyClientBuilder {
      * Default: 0
      *
      * @param connectionRequestTimeout to set.
+     * @return HoneyClientBuilder instance
      * @see RequestConfig#getConnectionRequestTimeout()
      */
     public HoneyClientBuilder connectionRequestTimeout(final int connectionRequestTimeout) {
@@ -333,6 +344,7 @@ public class HoneyClientBuilder {
      * Default: 3000
      *
      * @param socketTimeout to set.
+     * @return HoneyClientBuilder instance
      * @see RequestConfig#getSocketTimeout()
      */
     public HoneyClientBuilder socketTimeout(final int socketTimeout) {
@@ -346,6 +358,7 @@ public class HoneyClientBuilder {
      * Default: 8192
      *
      * @param bufferSize to set.
+     * @return HoneyClientBuilder instance
      * @see org.apache.http.config.ConnectionConfig.Builder#setBufferSize(int)
      */
     public HoneyClientBuilder bufferSize(final int bufferSize) {
@@ -359,6 +372,7 @@ public class HoneyClientBuilder {
      * Default: System CPU cores.
      *
      * @param ioThreadCount to set, must be between 1 and the system's number of CPU cores.
+     * @return HoneyClientBuilder instance
      * @see <a href="https://hc.apache.org/httpcomponents-core-ga/tutorial/html/nio.html">Apache http client NIO</a>
      * @see IOReactorConfig#getIoThreadCount()
      */
@@ -376,6 +390,7 @@ public class HoneyClientBuilder {
      * Default: 2000
      *
      * @param maximumHttpRequestShutdownWait milliseconds.
+     * @return HoneyClientBuilder instance
      * @see TransportOptions.Builder#setMaximumHttpRequestShutdownWait(long)
      */
     public HoneyClientBuilder maximumHttpRequestShutdownWait(final long maximumHttpRequestShutdownWait) {
@@ -390,6 +405,7 @@ public class HoneyClientBuilder {
      * Default: None
      *
      * @param additionalUserAgent added to the user agent on http request header.
+     * @return HoneyClientBuilder instance
      * @see TransportOptions.Builder#setAdditionalUserAgent(java.lang.String)
      */
     public HoneyClientBuilder additionalUserAgent(final String additionalUserAgent) {
@@ -403,6 +419,7 @@ public class HoneyClientBuilder {
      * For configuring a proxy server with authentication see: {@link #addProxyCredential(String, String, String)}
      *
      * @param host hostname of the proxy, frequently FQDN of the server
+     * @return HoneyClientBuilder instance
      */
     public HoneyClientBuilder addProxyNoCredential(final String host) {
         transportOptionsBuilder.setProxy(new HttpHost(host));
@@ -420,6 +437,7 @@ public class HoneyClientBuilder {
      * events. If absent, dataset must be explicitly set on an {@link EventFactory} or {@link Event}.
      *
      * @param dataSet to set.
+     * @return HoneyClientBuilder instance
      * @see Options.Builder#setDataset(java.lang.String)
      * <p>
      * Default: None
@@ -435,8 +453,9 @@ public class HoneyClientBuilder {
      * Default: {@code https://api.honeycomb.io/}
      *
      * @param apiHost to set.
+     * @return HoneyClientBuilder instance
+     * @throws URISyntaxException if host is not valid URI syntax
      * @see Options.Builder#setApiHost(java.net.URI)
-     * @throws URISyntaxException
      */
     public HoneyClientBuilder apiHost(final String apiHost) throws URISyntaxException {
         optionsBuilder.setApiHost(new URI(apiHost));
@@ -453,6 +472,7 @@ public class HoneyClientBuilder {
      * Default: None
      *
      * @param writeKey to set.
+     * @return HoneyClientBuilder instance
      * @see Options.Builder#setWriteKey(java.lang.String)
      */
     public HoneyClientBuilder writeKey(final String writeKey) {
@@ -465,6 +485,7 @@ public class HoneyClientBuilder {
      * Default: false
      *
      * @param enabled true to enable debug response observer
+     * @return HoneyClientBuilder instance
      */
     public HoneyClientBuilder debug(final boolean enabled) {
         this.debugEnabled = enabled;
