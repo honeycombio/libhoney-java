@@ -5,6 +5,7 @@ import io.honeycomb.libhoney.Options;
 import io.honeycomb.libhoney.TransportOptions;
 import io.honeycomb.libhoney.ValueSupplier;
 import io.honeycomb.libhoney.responses.ResponseObservable;
+import io.honeycomb.libhoney.transport.Transport;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.Credentials;
@@ -17,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.net.ssl.SSLContext;
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
@@ -30,7 +32,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings("resource")
 @RunWith(MockitoJUnitRunner.class)
 public class HoneyClientBuilderTest {
 
@@ -214,8 +215,8 @@ public class HoneyClientBuilderTest {
     }
 
     @Test
-    public void testConnectTimeout() {
-        final HoneyClient client = builder.connectTimeout(123).build();
+    public void testConnectionTimeout() {
+        final HoneyClient client = builder.connectionTimeout(123).build();
         verify(transportBuilder, times(1)).setConnectTimeout(123);
         completeNegativeVerification();
     }
@@ -239,6 +240,17 @@ public class HoneyClientBuilderTest {
         final HoneyClient client = builder.batchSize(123).build();
         verify(transportBuilder, times(1)).setBatchSize(123);
         completeNegativeVerification();
+    }
+
+    @Test
+    public void testTransport() throws NoSuchFieldException, IllegalAccessException {
+        final Transport mockTransport = mock(Transport.class);
+        final HoneyClient client = builder.transport(mockTransport).build();
+        final Field field = HoneyClient.class.getDeclaredField("transport");
+        field.setAccessible(true);
+        final Object actualValue = field.get(client);
+        Assert.assertTrue("Expected reflected transport value to be instance of Transport", Transport.class.isAssignableFrom(actualValue.getClass()));
+        Assert.assertSame("Expected transport to be the same", mockTransport, (Transport) actualValue);
     }
 
     private void completeNegativeVerification() {

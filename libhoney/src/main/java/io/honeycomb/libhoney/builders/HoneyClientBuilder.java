@@ -10,6 +10,7 @@ import io.honeycomb.libhoney.Options;
 import io.honeycomb.libhoney.ResponseObserver;
 import io.honeycomb.libhoney.TransportOptions;
 import io.honeycomb.libhoney.ValueSupplier;
+import io.honeycomb.libhoney.transport.Transport;
 import io.honeycomb.libhoney.transport.batch.impl.HoneycombBatchConsumer;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -36,6 +37,7 @@ public class HoneyClientBuilder {
     private final List<ResponseObserver> responseObservers = new ArrayList<>();
     protected TransportOptions.Builder transportOptionsBuilder = new TransportOptions.Builder();
     protected Options.Builder optionsBuilder = new Options.Builder();
+    private Transport transport = null;
     private boolean debugEnabled = false;
 
     /**
@@ -53,10 +55,17 @@ public class HoneyClientBuilder {
     public HoneyClient build() {
         configureOptionBuilder();
         configureTransportOptionBuilder();
-        final HoneyClient client = new HoneyClient(optionsBuilder.build(), transportOptionsBuilder.build());
+        final HoneyClient client = createClient();
         configureClient(client);
         return client;
 
+    }
+
+    private HoneyClient createClient() {
+        if(transport==null){
+            return new HoneyClient(optionsBuilder.build(), transportOptionsBuilder.build());
+        }
+        return new HoneyClient(optionsBuilder.build(), transport);
     }
 
     private void configureClient(final HoneyClient client) {
@@ -313,7 +322,7 @@ public class HoneyClientBuilder {
      * @return HoneyClientBuilder instance
      * @see RequestConfig#getConnectTimeout()
      */
-    public HoneyClientBuilder connectTimeout(final int connectTimeout) {
+    public HoneyClientBuilder connectionTimeout(final int connectTimeout) {
         transportOptionsBuilder.setConnectTimeout(connectTimeout);
         return this;
     }
@@ -494,6 +503,15 @@ public class HoneyClientBuilder {
 
     public HoneyClientBuilder addResponseObserver(final ResponseObserver responseObserver) {
         responseObservers.add(responseObserver);
+        return this;
+    }
+
+    /**
+     * Transport for sending events to HoneyComb. Used by the {@link io.honeycomb.libhoney.HoneyClient} internals.
+     * This can also be used to disable sending events to Honeycomb by passing in a mock Transport.
+     */
+    public HoneyClientBuilder transport(final Transport transport){
+        this.transport = transport;
         return this;
     }
 
