@@ -1,6 +1,14 @@
 package io.honeycomb.libhoney;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import io.honeycomb.libhoney.Event;
+import io.honeycomb.libhoney.EventPostProcessor;
+import io.honeycomb.libhoney.HoneyClient;
+import io.honeycomb.libhoney.LibHoney;
+import io.honeycomb.libhoney.ResponseObserver;
+import io.honeycomb.libhoney.TransportOptions;
+import io.honeycomb.libhoney.ValueSupplier;
+import io.honeycomb.libhoney.builders.HoneyClientBuilder;
 import io.honeycomb.libhoney.eventdata.EventData;
 import io.honeycomb.libhoney.responses.ClientRejected;
 import io.honeycomb.libhoney.responses.Response;
@@ -16,6 +24,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,15 +32,25 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.containing;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
+import static com.github.tomakehurst.wiremock.client.WireMock.matching;
+import static com.github.tomakehurst.wiremock.client.WireMock.matchingJsonPath;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
+import static com.github.tomakehurst.wiremock.client.WireMock.verify;
 import static io.honeycomb.libhoney.TransportOptions.DEFAULT_BATCH_SIZE;
+import static io.honeycomb.libhoney.TransportOptions.builder;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * This class defines the test spec of the client. Any upate to this should be reflected in {@link End2EndBuilderTest}
- *
+ * This ensures HoneyClientBuilder created clients match expected results as defined by {@link End2EndTest}.
  */
-public class End2EndTest {
+public class End2EndBuilderTest {
 
     @Rule
     public WireMockRule wireMock = new WireMockRule(8089);
@@ -47,22 +66,18 @@ public class End2EndTest {
     }
 
     // this client will not timeout batches
-    private void createDefaultClient() {
-        honeyClient = new HoneyClient(LibHoney.options()
-            .setWriteKey("testWriteKey")
-            .setDataset("testDataSet")
-            .setApiHost(URI.create("http://localhost:8089"))
-            .build());
+    private void createDefaultClient() throws URISyntaxException {
+        honeyClient = createBuilder().build();
         notifyQueue = createObserverQueue();
     }
 
-    private void createClientWithoutTimeout() {
-        honeyClient = new HoneyClient(LibHoney.options()
-            .setWriteKey("testWriteKey")
-            .setDataset("testDataSet")
-            .setApiHost(URI.create("http://localhost:8089"))
-            .build(),
-            TransportOptions.builder().setBatchTimeoutMillis(Long.MAX_VALUE).build());
+
+    private HoneyClientBuilder createBuilder() throws URISyntaxException {
+        return new HoneyClientBuilder().writeKey("testWriteKey").dataSet("testDataSet").apiHost("http://localhost:8089");
+    }
+
+    private void createClientWithoutTimeout() throws URISyntaxException {
+        honeyClient = createBuilder().batchTimeoutMillis(Long.MAX_VALUE).build();
         notifyQueue = createObserverQueue();
     }
 
@@ -72,7 +87,7 @@ public class End2EndTest {
     }
 
     @Test
-    public void sendingOneSimpleEvent() throws InterruptedException {
+    public void sendingOneSimpleEvent() throws InterruptedException, URISyntaxException {
         createDefaultClient();
 
         honeyClient.send(Collections.singletonMap("SimpleData", "SimpleValue"));
@@ -98,7 +113,7 @@ public class End2EndTest {
     }
 
     @Test
-    public void sending2SimpleEvents() throws InterruptedException {
+    public void sending2SimpleEvents() throws InterruptedException, URISyntaxException {
         stubServer(200, "[{\"status\": 202},{\"status\": 202}]");
         createDefaultClient();
 
@@ -129,27 +144,24 @@ public class End2EndTest {
     }
 
     @Test
-    public void sendingAnEventWhereEveryFieldTypeIsConfiguredAndVariousDataTypesAreIncluded() throws InterruptedException {
-        honeyClient = new HoneyClient(LibHoney.options()
-            .setWriteKey("testWriteKey")
-            .setDataset("testDataSet")
-            .setGlobalFields(Collections.singletonMap("GlobalData", false))
-            .setGlobalDynamicFields(Collections.singletonMap("GlobalDynamicData", new ValueSupplier<Object>() {
+    public void sendingAnEventWhereEveryFieldTypeIsConfiguredAndVariousDataTypesAreIncluded() throws InterruptedException, URISyntaxException {
+        honeyClient = createBuilder()
+            .addGlobalField("GlobalData", false)
+            .addGlobalDynamicFields("GlobalDynamicData", new ValueSupplier<Object>() {
                 @Override
                 public Object supply() {
                     return new String[]{
                         "a", "b", "c"
                     };
                 }
-            }))
-            .setEventPostProcessor(new EventPostProcessor() {
+            })
+            .eventPostProcessor(new EventPostProcessor() {
                 @Override
-                public void process(final EventData<?> eventData) {
+                public void process(EventData<?> eventData) {
                     eventData.addField("PostProcessData", new TestData().setInnerData("inner"));
                 }
             })
-            .setApiHost(URI.create("http://localhost:8089"))
-            .build());
+            .build();
         final BlockingQueue<Response> notifyQueue = createObserverQueue();
 
         final Event event = honeyClient.buildEventFactory()
@@ -192,7 +204,7 @@ public class End2EndTest {
     }
 
     @Test
-    public void sendEnoughEventsToFill3Batches() throws InterruptedException {
+    public void sendEnoughEventsToFill3Batches() throws InterruptedException, URISyntaxException {
         final String requestBody = joinElements(createResponseElements(DEFAULT_BATCH_SIZE, "{\"status\": 202}"));
         stubServer(200, requestBody);
         createClientWithoutTimeout();
@@ -208,7 +220,7 @@ public class End2EndTest {
     }
 
     @Test
-    public void sendEventsWhere60PercentOfEventsInTheBatchHaveFailed() throws InterruptedException {
+    public void sendEventsWhere60PercentOfEventsInTheBatchHaveFailed() throws InterruptedException, URISyntaxException {
         final List<String> badResponses = createResponseElements(30, "{\"status\": 400, \"error\": \"ERROR!\"}");
         final List<String> goodResponse = createResponseElements(20, "{\"status\": 202}");
         goodResponse.addAll(badResponses);
@@ -236,7 +248,7 @@ public class End2EndTest {
     }
 
     @Test
-    public void sendEventsWhereTheBatchRequestAsAWholeHasFailed() throws InterruptedException {
+    public void sendEventsWhereTheBatchRequestAsAWholeHasFailed() throws InterruptedException, URISyntaxException {
         stubServer(401, "{\"error\": \"ERROR!\"}");
         createClientWithoutTimeout();
 
