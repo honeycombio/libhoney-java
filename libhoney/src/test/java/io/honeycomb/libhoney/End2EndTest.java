@@ -29,7 +29,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * This class defines the test spec of the client. Any upate to this should be reflected in {@link End2EndBuilderTest}
- *
  */
 public class End2EndTest {
 

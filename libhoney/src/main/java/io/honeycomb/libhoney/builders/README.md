@@ -44,7 +44,7 @@ public class Example{
         client = new HoneyClientBuilder()
                     .dataSet("test-dataset")
                     .writeKey("WRITE_KEY")
-                    .addProxyNoCredential("https://myproxy.example.com")
+                    .addProxy("https://myproxy.example.com")
                     .build();
     }
 }

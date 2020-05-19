@@ -143,14 +143,14 @@ public class HoneyClientBuilder {
     /**
      * Use this method to configure the HTTP client to use a proxy that needs authentication.
      * <p>
-     * For configuring a proxy server without authentication see: {@link #addProxyNoCredential(String)}
+     * For configuring a proxy server without authentication see: {@link #addProxy(String)}
      *
      * @param proxyHost hostname of the proxy, frequently FQDN of the server
      * @param username  username for authentication with proxy server
      * @param password  password for authentication with proxy server
      * @return HoneyClientBuilder instance
      */
-    public HoneyClientBuilder addProxyCredential(final String proxyHost, final String username, final String password) {
+    public HoneyClientBuilder addProxy(final String proxyHost, final String username, final String password) {
         final UsernamePasswordCredentials credential = new UsernamePasswordCredentials(username, password);
         credentialMap.put(proxyHost, credential);
         return this;
@@ -425,12 +425,12 @@ public class HoneyClientBuilder {
     /**
      * Use this method to configure the HTTP client to use a proxy without authentication.
      * <p>
-     * For configuring a proxy server with authentication see: {@link #addProxyCredential(String, String, String)}
+     * For configuring a proxy server with authentication see: {@link #addProxy(String, String, String)}
      *
      * @param host hostname of the proxy, frequently FQDN of the server
      * @return HoneyClientBuilder instance
      */
-    public HoneyClientBuilder addProxyNoCredential(final String host) {
+    public HoneyClientBuilder addProxy(final String host) {
         transportOptionsBuilder.setProxy(new HttpHost(host));
         return this;
     }

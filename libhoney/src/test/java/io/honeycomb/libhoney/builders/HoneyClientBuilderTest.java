@@ -54,7 +54,7 @@ public class HoneyClientBuilderTest {
 
     @Test
     public void testAddProxyCredentials() {
-        final HoneyClient client = builder.addProxyCredential("host:80", "user", "pass").build();
+        final HoneyClient client = builder.addProxy("host:80", "user", "pass").build();
         verify(transportBuilder, times(1)).setCredentialsProvider(any(CredentialsProvider.class));
         final CredentialsProvider actualValue = transportBuilder.getCredentialsProvider();
         final Credentials credentials = actualValue.getCredentials(AuthScope.ANY);
@@ -146,7 +146,7 @@ public class HoneyClientBuilderTest {
 
     @Test
     public void testProxyNoCredential() {
-        final HoneyClient client = builder.addProxyNoCredential("proxyHost").build();
+        final HoneyClient client = builder.addProxy("proxyHost").build();
         verify(transportBuilder, times(1)).setProxy(any(HttpHost.class));
         completeNegativeVerification();
     }
