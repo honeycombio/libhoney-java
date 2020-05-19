@@ -50,6 +50,28 @@ public class Example{
 }
 ```
 
+## Working with a proxy using BasicAuthentication
+If the application server needs to use an HTTP proxy, configure it like this.
+
+```java
+package com.example.myapp;
+
+import io.honeycomb.libhoney.HoneyClient;
+import io.honeycomb.libhoney.builders.HoneyClientBuilder;
+
+public class Example{
+    HoneyClient client;
+
+    public Example(){
+        client = new HoneyClientBuilder()
+                    .dataSet("test-dataset")
+                    .writeKey("WRITE_KEY")
+                    .addProxy("https://myproxy.example.com", "user", System.getenv("proxy_password"))
+                    .build();
+    }
+}
+```
+
 ## Configuring Libhoney to disable sending events to Honeycomb
 Setting the `Transport` to a custom implementation (i.e. mock) can be used to disable sending data to Honeycomb.
 
