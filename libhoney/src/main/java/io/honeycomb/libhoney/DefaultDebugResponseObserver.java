@@ -10,14 +10,13 @@ import org.slf4j.LoggerFactory;
 import java.net.UnknownHostException;
 
 public class DefaultDebugResponseObserver implements ResponseObserver {
-    private static final Logger LOG = LoggerFactory.getLogger(DefaultDebugResponseObserver.class);
-
     protected static final String ERROR_TEMPLATE_401 = "Server responded with a 401 HTTP error code to a batch request." +
         " This is likely caused by using an incorrect 'Team Write Key'. Check https://ui.honeycomb.io/account to verify your " +
         "team write key. Rejected event: {}";
-    protected static final String ERROR_TEMPLATE_UNKNOWN_HOST_EXCEPTION = "Could not reach determine destination server. " +
-        "This could be due to 1) invalid apiHost 2) Could not resolve apiHost (firewall? dns?) 3) problem with proxy configuration. " +
+    protected static final String ERROR_TEMPLATE_UNKNOWN_HOST_EXCEPTION = "Could not reach destination server. " +
+        "This could be due to 1) invalid apiHost 2) Could not resolve apiHost (firewall? dns?) 3) problem with proxy configuration or authentication. " +
         "Unknown event: {}";
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultDebugResponseObserver.class);
     private static final int STATUS_UNAUTHORIZED = 401;
 
     @Override
@@ -34,6 +33,10 @@ public class DefaultDebugResponseObserver implements ResponseObserver {
         }
     }
 
+    protected void handle401(final ServerRejected serverRejected) {
+        LOG.debug(ERROR_TEMPLATE_401, serverRejected);
+    }
+
     @Override
     public void onClientRejected(final ClientRejected clientRejected) {
         LOG.debug("Event rejected on the client side: {}", clientRejected);
@@ -41,14 +44,10 @@ public class DefaultDebugResponseObserver implements ResponseObserver {
 
     @Override
     public void onUnknown(final Unknown unknown) {
-        if(unknown.getException()!=null && UnknownHostException.class.isAssignableFrom(unknown.getException().getClass())){
+        if (unknown.getException() != null && UnknownHostException.class.isAssignableFrom(unknown.getException().getClass())) {
             LOG.debug(ERROR_TEMPLATE_UNKNOWN_HOST_EXCEPTION, unknown);
         } else {
             LOG.debug("Received an unknown error while trying to send Event to Honeycomb: {}", unknown);
         }
-    }
-
-    protected void handle401(final ServerRejected serverRejected) {
-        LOG.debug(ERROR_TEMPLATE_401, serverRejected);
     }
 }
