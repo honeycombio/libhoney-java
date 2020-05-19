@@ -31,15 +31,19 @@ import static org.assertj.core.api.Assertions.assertThat;
  * This class defines the test spec of the client. Any upate to this should be reflected in {@link End2EndBuilderTest}
  */
 public class End2EndTest {
+    private static final String LOCAL_TEST_URL = "http://localhost:8089";
+    private static final int LOCAL_TEST_PORT = 8089;
 
     @Rule
-    public WireMockRule wireMock = new WireMockRule(8089);
+    public WireMockRule wireMock = new WireMockRule(LOCAL_TEST_PORT);
 
     private HoneyClient honeyClient;
     private BlockingQueue<Response> notifyQueue;
 
     @Before
     public void setup() {
+        // 200 is HTTP response (transport level response)
+        // 202 is Honeycomb response for batch successfully enqueued for processing
         stubServer(200, "[" +
             "  {\"status\": 202}" +
             "]");
@@ -50,7 +54,7 @@ public class End2EndTest {
         honeyClient = new HoneyClient(LibHoney.options()
             .setWriteKey("testWriteKey")
             .setDataset("testDataSet")
-            .setApiHost(URI.create("http://localhost:8089"))
+            .setApiHost(URI.create(LOCAL_TEST_URL))
             .build());
         notifyQueue = createObserverQueue();
     }
@@ -59,7 +63,7 @@ public class End2EndTest {
         honeyClient = new HoneyClient(LibHoney.options()
             .setWriteKey("testWriteKey")
             .setDataset("testDataSet")
-            .setApiHost(URI.create("http://localhost:8089"))
+            .setApiHost(URI.create(LOCAL_TEST_URL))
             .build(),
             TransportOptions.builder().setBatchTimeoutMillis(Long.MAX_VALUE).build());
         notifyQueue = createObserverQueue();
@@ -147,7 +151,7 @@ public class End2EndTest {
                     eventData.addField("PostProcessData", new TestData().setInnerData("inner"));
                 }
             })
-            .setApiHost(URI.create("http://localhost:8089"))
+            .setApiHost(URI.create(LOCAL_TEST_URL))
             .build());
         final BlockingQueue<Response> notifyQueue = createObserverQueue();
 

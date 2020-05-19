@@ -51,15 +51,18 @@ import static org.assertj.core.api.Assertions.assertThat;
  * This ensures HoneyClientBuilder created clients match expected results as defined by {@link End2EndTest}.
  */
 public class End2EndBuilderTest {
-
+    private static final String LOCAL_TEST_URL = "http://localhost:8089";
+    private static final int LOCAL_TEST_PORT = 8089;
     @Rule
-    public WireMockRule wireMock = new WireMockRule(8089);
+    public WireMockRule wireMock = new WireMockRule(LOCAL_TEST_PORT);
 
     private HoneyClient honeyClient;
     private BlockingQueue<Response> notifyQueue;
 
     @Before
     public void setup() {
+        // 200 is HTTP response (transport level response)
+        // 202 is Honeycomb response for batch successfully enqueued for processing
         stubServer(200, "[" +
             "  {\"status\": 202}" +
             "]");
@@ -73,7 +76,7 @@ public class End2EndBuilderTest {
 
 
     private HoneyClientBuilder createBuilder() throws URISyntaxException {
-        return new HoneyClientBuilder().writeKey("testWriteKey").dataSet("testDataSet").apiHost("http://localhost:8089");
+        return new HoneyClientBuilder().writeKey("testWriteKey").dataSet("testDataSet").apiHost(LOCAL_TEST_URL);
     }
 
     private void createClientWithoutTimeout() throws URISyntaxException {
