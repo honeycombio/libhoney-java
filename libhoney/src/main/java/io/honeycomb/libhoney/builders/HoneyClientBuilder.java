@@ -47,7 +47,7 @@ public class HoneyClientBuilder {
      * HoneyClient client = new HoneyClientBuilder()
      *                          .dataSet("dataset")
      *                          .writeKey("write key")
-     *                          .addProxyNoCredential("proxy.domain.com")
+     *                          .addProxy("proxy.domain.com")
      *                          .build()}</pre>
      *
      * @return new HoneyClient instance
