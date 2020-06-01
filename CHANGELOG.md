@@ -1,5 +1,12 @@
 # libhoney Changelog
 
+## 1.1.2
+
+Improvements:
+
+- Provides a simplified Builder for HoneyClient, HoneyClientBuilder. See README in io.honeycomb.libhoney.builders package for usage.
+- Added DefaultDebugResponseObserver to provide debug ResponseObserver for users who directly use libhoney.
+
 ## 1.1.1
 
 Improvements:
