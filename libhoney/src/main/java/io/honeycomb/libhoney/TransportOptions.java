@@ -32,8 +32,8 @@ public class TransportOptions {
     /// HTTP client defaults
     public static final int DEFAULT_MAX_CONNECTIONS = 200;
     public static final int DEFAULT_MAX_CONNECTIONS_PER_API_HOST = 100;
-    public static final int DEFAULT_CONNECT_TIMEOUT = 0;
-    public static final int DEFAULT_CONNECTION_REQUEST_TIMEOUT = 0;
+    public static final int DEFAULT_CONNECT_TIMEOUT = 10000;
+    public static final int DEFAULT_CONNECTION_REQUEST_TIMEOUT = 10000;
     public static final int DEFAULT_SOCKET_TIMEOUT = 3000;
     public static final int DEFAULT_BUFFER_SIZE = 8 * 1024;
     public static final int DEFAULT_IO_THREAD_COUNT = Runtime.getRuntime().availableProcessors();
