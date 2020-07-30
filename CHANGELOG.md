@@ -1,6 +1,6 @@
 # libhoney Changelog
 
-## 1.1.3
+## 1.2.0
 
 Improveents:
 
