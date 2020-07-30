@@ -1,5 +1,14 @@
 # libhoney Changelog
 
+## 1.2.0
+
+Improvements:
+
+- Add default timeout for HTTP requests to 10 seconds. Previously there was no default which meant the client would would indefinetly.
+
+Maintenance:
+- Add CODEOWNERS file to automatically select PR reviewers.
+
 ## 1.1.2
 
 Improvements:
