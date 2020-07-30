@@ -2,7 +2,7 @@
 
 ## 1.2.0
 
-Improveents:
+Improvements:
 
 - Add default timeout for HTTP requests to 10 seconds. Previously there was no default which meant the client would would indefinetly.
 
