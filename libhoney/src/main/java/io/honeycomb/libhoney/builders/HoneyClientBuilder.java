@@ -467,7 +467,22 @@ public class HoneyClientBuilder {
      * @see Options.Builder#setApiHost(java.net.URI)
      */
     public HoneyClientBuilder apiHost(final String apiHost) throws URISyntaxException {
-        optionsBuilder.setApiHost(new URI(apiHost));
+        apiHost(new URI(apiHost));
+        return this;
+    }
+
+    /**
+     * APIHost is the hostname for the Honeycomb API server to which to send this event.
+     * <p>
+     * Default: {@code https://api.honeycomb.io/}
+     *
+     * @param apiHost to set.
+     * @return HoneyClientBuilder instance
+     * @throws URISyntaxException if host is not valid URI syntax
+     * @see Options.Builder#setApiHost(java.net.URI)
+     */
+    public HoneyClientBuilder apiHost(final URI apiHost) throws URISyntaxException {
+        optionsBuilder.setApiHost(apiHost);
         return this;
     }
 
