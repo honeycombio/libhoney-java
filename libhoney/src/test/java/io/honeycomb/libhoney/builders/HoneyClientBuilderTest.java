@@ -129,6 +129,14 @@ public class HoneyClientBuilderTest {
     }
 
     @Test
+    public void testApiHostWithURI() throws URISyntaxException {
+        final HoneyClient client = builder.apiHost(new URI("HOST:80")).build();
+        Assert.assertEquals("Expected host to be present", "HOST:80", client.createEvent().getApiHost().toString());
+        verify(optionBuilder, times(1)).setApiHost(any(URI.class));
+        completeNegativeVerification();
+    }
+
+    @Test
     public void testdataSet() {
         final HoneyClient client = builder.dataSet("set").build();
         Assert.assertEquals("Expected dataset to be set", "set", client.createEvent().getDataset());
