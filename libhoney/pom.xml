@@ -32,6 +32,8 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>${shadeVersion}</version>
                 <configuration>
+                    <shadedArtifactAttached>true</shadedArtifactAttached>
+                    <shadedClassifierName>shaded</shadedClassifierName>
                     <artifactSet>
                         <includes>
                             <include>org.apache.httpcomponents:*</include>
