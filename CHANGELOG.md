@@ -1,5 +1,12 @@
 # libhoney Changelog
 
+## 1.3.0
+
+Improvements:
+
+- Add `HoneyClientBuilder.apiHost` overload that takes a prebuilt URI #32.
+- Provide a 'thin' version of libhoney with the `thin` classifer that does not include pinned dependencies #35.
+
 ## 1.2.0
 
 Improvements:
