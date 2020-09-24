@@ -1,5 +1,11 @@
 # libhoney Changelog
 
+## 1.3.1
+
+Fixes:
+
+- Run the plugin to attach the thin jar with classifier after others to ensure it uses a valid file (#37).
+
 ## 1.3.0
 
 Improvements:
