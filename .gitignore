@@ -18,3 +18,7 @@ buildNumber.properties
 ### Idea ignore
 .idea
 *.iml
+.vscode
+.project
+.settings
+.classpath
