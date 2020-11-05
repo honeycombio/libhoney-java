@@ -1,44 +1,22 @@
 version: 2.1
-commands:
-  runtests:
+
+orbs:
+  maven: circleci/maven@1.0.3
+
+jobs:
+  test:
     parameters:
-      javaversion:
+      java-version:
         type: string
-        default: "8"
+    executor:
+      name: maven/default
+      tag: << parameters.java-version >>
     steps:
       - checkout
-      - restore_cache: # Download and cache dependencies
-          key: libhoney-java-{{ checksum "pom.xml" }}-<< parameters.javaversion >>
-      - run: ./mvnw dependency:go-offline # gets the project dependencies
-      - save_cache: # saves the project dependencies
-          paths:
-            - ~/.m2
-          key: libhoney-java-{{ checksum "pom.xml" }}-<< parameters.javaversion >>
-      - run: ./mvnw package # run the actual tests
-executors:
-  java:
-    parameters:
-      javaversion:
-        type: string
-        default: "8"
-    working_directory: ~/libhoney-java
-    environment:
-      # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
-      TERM: dumb
-    docker:
-      - image: circleci/openjdk:<< parameters.javaversion >>-jdk
-jobs:
-  java:
-    parameters:
-      javaversion:
-        type: string
-        default: "8"
-    executor:
-      name: java
-      javaversion: "<< parameters.javaversion >>"
-    steps:
-      - runtests
+      - maven/with_cache:
+          steps:
+            - run: mvn clean test
+
 workflows:
   version: 2
   nightly:
@@ -50,29 +28,17 @@ workflows:
               only:
                 - main
     jobs:
-      - java:
-          javaversion: "8"
-          name: JDK-8
-      - java:
-          javaversion: "9"
-          name: JDK-9
-      - java:
-          javaversion: "10"
-          name: JDK-10
-      - java:
-          javaversion: "11"
-          name: JDK-11
+      - test: &test
+          matrix:
+            parameters:
+              java-version:
+                - "8.0"
+                - "11.0"
+                - "13.0"
   build:
     jobs:
-      - java:
-          javaversion: "8"
-          name: JDK-8
-      - java:
-          javaversion: "9"
-          name: JDK-9
-      - java:
-          javaversion: "10"
-          name: JDK-10
-      - java:
-          javaversion: "11"
-          name: JDK-11
+      - test:
+          <<: *test
+          filters:
+            tags:
+              only: /.*/
