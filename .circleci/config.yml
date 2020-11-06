@@ -1,44 +1,65 @@
 version: 2.1
-commands:
-  runtests:
+
+orbs:
+  maven: circleci/maven@1.0.3
+
+jobs:
+  test:
     parameters:
-      javaversion:
+      java-version:
         type: string
-        default: "8"
+    executor:
+      name: maven/default
+      tag: << parameters.java-version >>
     steps:
       - checkout
-      - restore_cache: # Download and cache dependencies
-          key: libhoney-java-{{ checksum "pom.xml" }}-<< parameters.javaversion >>
-      - run: ./mvnw dependency:go-offline # gets the project dependencies
-      - save_cache: # saves the project dependencies
-          paths:
-            - ~/.m2
-          key: libhoney-java-{{ checksum "pom.xml" }}-<< parameters.javaversion >>
-      - run: ./mvnw package # run the actual tests
-executors:
-  java:
-    parameters:
-      javaversion:
-        type: string
-        default: "8"
-    working_directory: ~/libhoney-java
-    environment:
-      # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
-      TERM: dumb
-    docker:
-      - image: circleci/openjdk:<< parameters.javaversion >>-jdk
-jobs:
-  java:
-    parameters:
-      javaversion:
-        type: string
-        default: "8"
-    executor:
-      name: java
-      javaversion: "<< parameters.javaversion >>"
+      - maven/with_cache:
+          steps:
+            - run: mvn clean test
+
+  package:
+    executor: &default_executor
+      name: maven/default
+      tag: "11.0"
     steps:
-      - runtests
+      - checkout
+      - maven/with_cache:
+          steps:
+            - run: mkdir -p ~/artifacts
+            - run: mvn clean package -Dmaven.test.skip=true
+            - run: cp */target/*.jar ~/artifacts
+            - persist_to_workspace:
+                root: ~/
+                paths:
+                  - artifacts
+            - store_artifacts:
+                path: ~/artifacts
+
+  publish_github:
+    docker:
+      - image: cibuilds/github:0.13.0
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            echo "about to publish to tag ${CIRCLE_TAG}"
+            ls -l ~/artifacts/*
+            ghr -draft -n ${CIRCLE_TAG} -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} ${CIRCLE_TAG} ~/artifacts
+
+  publish_maven:
+    executor: *default_executor
+    steps:
+      - checkout
+      - maven/with_cache:
+          steps:
+            - run:
+                name: Configure GPG private key for signing project artifacts in OSS Sonatype
+                command: |
+                  echo $GPG_BASE64 | base64 --decode | gpg --batch --no-tty --import --yes
+            - run: mvn -s .circleci/maven-release-settings.xml clean deploy -Dmaven.test.skip=true
+
 workflows:
   version: 2
   nightly:
@@ -50,29 +71,35 @@ workflows:
               only:
                 - main
     jobs:
-      - java:
-          javaversion: "8"
-          name: JDK-8
-      - java:
-          javaversion: "9"
-          name: JDK-9
-      - java:
-          javaversion: "10"
-          name: JDK-10
-      - java:
-          javaversion: "11"
-          name: JDK-11
+      - test: &test
+          matrix:
+            parameters:
+              java-version:
+                - "8.0"
+                - "11.0"
+                - "13.0"
   build:
     jobs:
-      - java:
-          javaversion: "8"
-          name: JDK-8
-      - java:
-          javaversion: "9"
-          name: JDK-9
-      - java:
-          javaversion: "10"
-          name: JDK-10
-      - java:
-          javaversion: "11"
-          name: JDK-11
+      - test:
+          <<: *test
+          filters:
+            tags:
+              only: /.*/
+      - package:
+          requires:
+            - test
+          filters: &tag_filters
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - publish_github:
+          context: Honeycomb Secrets
+          requires:
+            - package
+          filters: *tag_filters
+      - publish_maven:
+          context: java_beeline
+          requires:
+            - test
+          filters: *tag_filters
