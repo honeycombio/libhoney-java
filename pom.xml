@@ -65,7 +65,7 @@
         <!-- COMPILE dependency versions -->
         <apacheClientVersion>4.1.3</apacheClientVersion>
         <jacksonCoreVersion>2.9.9</jacksonCoreVersion>
-        <jacksonDatabindVersion>2.9.9.2</jacksonDatabindVersion>
+        <jacksonDatabindVersion>2.12.3</jacksonDatabindVersion>
         <slf4jVersion>1.7.25</slf4jVersion>
 
         <!-- TEST dependency versions -->
