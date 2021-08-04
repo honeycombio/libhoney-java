@@ -85,7 +85,7 @@
         <pmdPluginVersion>3.9.0</pmdPluginVersion>
         <pmdCoreVersion>6.3.0</pmdCoreVersion>
         <findbugsVersion>3.0.5</findbugsVersion>
-        <shadeVersion>3.1.0</shadeVersion>
+        <shadeVersion>3.2.4</shadeVersion>
         <surefireVersion>2.22.2</surefireVersion>
     </properties>
 
