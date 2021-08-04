@@ -71,7 +71,7 @@
         <!-- TEST dependency versions -->
         <junitVersion>4.12</junitVersion>
         <mockitoVersion>2.18.0</mockitoVersion>
-        <assertjVersion>2.9.0</assertjVersion>
+        <assertjVersion>3.20.2</assertjVersion>
         <wiremockVersion>2.27.2</wiremockVersion>
 
         <!-- Maven plugin versions -->
