@@ -83,9 +83,9 @@
         <xrefPluginVersion>2.5</xrefPluginVersion>
         <mavenWrapperPluginVersion>0.6.0</mavenWrapperPluginVersion>
         <pmdPluginVersion>3.9.0</pmdPluginVersion>
-        <pmdCoreVersion>6.3.0</pmdCoreVersion>
+        <pmdCoreVersion>6.36.0</pmdCoreVersion>
         <findbugsVersion>3.0.5</findbugsVersion>
-        <shadeVersion>3.1.0</shadeVersion>
+        <shadeVersion>3.2.4</shadeVersion>
         <surefireVersion>2.22.2</surefireVersion>
     </properties>
 
@@ -109,7 +109,7 @@
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.7</version>
+                        <version>1.6.8</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
