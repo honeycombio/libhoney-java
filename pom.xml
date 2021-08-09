@@ -69,7 +69,7 @@
         <slf4jVersion>1.7.25</slf4jVersion>
 
         <!-- TEST dependency versions -->
-        <junitVersion>4.12</junitVersion>
+        <junitVersion>4.13.2</junitVersion>
         <mockitoVersion>2.18.0</mockitoVersion>
         <assertjVersion>2.9.0</assertjVersion>
         <wiremockVersion>2.27.2</wiremockVersion>
