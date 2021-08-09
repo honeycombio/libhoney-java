@@ -1,5 +1,20 @@
 # libhoney Changelog
 
+## 1.3.2
+
+Maintenance:
+
+- Bump pmdCoreVersion from 6.36.0 to 6.37.0 (#61)
+- Bump maven-compiler-plugin from 3.7.0 to 3.8.1 (#55)
+- Bump maven-javadoc-plugin from 3.1.0 to 3.3.0 (#58)
+- Bump wiremock from 2.17.0 to 2.27.2 (#60)
+- Bump jackson-databind from 2.9.9.2 to 2.9.10.7 (#59)
+- Bump nexus-staging-maven-plugin from 1.6.7 to 1.6.8 (#57)
+- Bump jackson-core from 2.9.9 to 2.12.4 (#54)
+- Bump pmdCoreVersion from 6.3.0 to 6.36.0 (#50)
+- Bump maven-shade-plugin from 3.1.0 to 3.2.4 (#49)
+- Bump maven-surefire-plugin from 2.22.1 to 2.22.2 (#48)
+
 ## 1.3.1
 
 Fixes:
