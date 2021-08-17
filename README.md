@@ -9,7 +9,6 @@ Java library for sending events to [Honeycomb](https://honeycomb.io), a service 
 Requires Java 7 or greater.
 
 - [Usage and Examples](https://honeycomb.io/docs/connect/java)
-- [API Reference](https://honeycombio.github.io/libhoney-java/)
 
 ## Local Build
 
