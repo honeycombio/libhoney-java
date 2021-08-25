@@ -80,7 +80,7 @@
         <mavenSourcePluginVersion>3.0.1</mavenSourcePluginVersion>
         <mavenJarPluginVersion>3.2.0</mavenJarPluginVersion>
         <javadocPluginVersion>3.3.0</javadocPluginVersion>
-        <xrefPluginVersion>2.5</xrefPluginVersion>
+        <xrefPluginVersion>3.1.1</xrefPluginVersion>
         <mavenWrapperPluginVersion>0.7.7</mavenWrapperPluginVersion>
         <pmdPluginVersion>3.14.0</pmdPluginVersion>
         <pmdCoreVersion>6.37.0</pmdCoreVersion>
