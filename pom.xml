@@ -81,7 +81,7 @@
         <mavenJarPluginVersion>3.2.0</mavenJarPluginVersion>
         <javadocPluginVersion>3.3.0</javadocPluginVersion>
         <xrefPluginVersion>2.5</xrefPluginVersion>
-        <mavenWrapperPluginVersion>0.6.0</mavenWrapperPluginVersion>
+        <mavenWrapperPluginVersion>0.7.7</mavenWrapperPluginVersion>
         <pmdPluginVersion>3.14.0</pmdPluginVersion>
         <pmdCoreVersion>6.37.0</pmdCoreVersion>
         <findbugsVersion>3.0.5</findbugsVersion>
