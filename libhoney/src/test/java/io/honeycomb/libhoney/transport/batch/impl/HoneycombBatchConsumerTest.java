@@ -3,6 +3,7 @@ package io.honeycomb.libhoney.transport.batch.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.collect.Lists;
 import io.honeycomb.libhoney.TestUtils;
 import io.honeycomb.libhoney.eventdata.ResolvedEvent;
 import io.honeycomb.libhoney.responses.ClientRejected;
@@ -173,11 +174,11 @@ public class HoneycombBatchConsumerTest {
         final ObjectNode barleyEvent = (ObjectNode) batchArray.get(0);
         assertThat(barleyEvent.get("time").textValue()).isNotBlank();
         assertThat(barleyEvent.get("samplerate").numberValue()).isEqualTo(5);
-        assertThat(barleyEvent.get("data").fieldNames()).containsExactlyInAnyOrder("field", "pasture", "paddock");
+        assertThat(Lists.newArrayList(barleyEvent.get("data").fieldNames())).containsExactlyInAnyOrder("field", "pasture", "paddock");
         final ObjectNode wheatEvent = (ObjectNode) batchArray.get(1);
         assertThat(wheatEvent.get("time").textValue()).isNotBlank();
         assertThat(wheatEvent.get("samplerate").numberValue()).isEqualTo(1);
-        assertThat(wheatEvent.get("data").fieldNames()).containsExactlyInAnyOrder("field", "meadow");
+        assertThat(Lists.newArrayList(wheatEvent.get("data").fieldNames())).containsExactlyInAnyOrder("field", "meadow");
     }
 
     @Test
