@@ -1,6 +1,6 @@
 # libhoney-java
 
-[![OSS Lifecycle](https://img.shields.io/osslifecycle/honeycombio/libhoney-java)](https://github.com/honeycombio/home/blob/main/honeycomb-oss-lifecycle-and-practices.md)
+[![OSS Lifecycle](https://img.shields.io/osslifecycle/honeycombio/libhoney-java?color=success)](https://github.com/honeycombio/home/blob/main/honeycomb-oss-lifecycle-and-practices.md)
 [![Build Status](https://circleci.com/gh/honeycombio/libhoney-java.svg?style=shield)](https://circleci.com/gh/honeycombio/libhoney-java)
 [![Maven Central](https://img.shields.io/maven-central/v/io.honeycomb.libhoney/libhoney-java.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3Aio.honeycomb.libhoney%20a%3Alibhoney-java)
 
