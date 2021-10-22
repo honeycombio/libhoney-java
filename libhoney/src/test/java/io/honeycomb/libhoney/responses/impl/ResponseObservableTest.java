@@ -14,7 +14,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
 
 public class ResponseObservableTest {
@@ -124,7 +123,7 @@ public class ResponseObservableTest {
         observable.publish(mock(ServerRejected.class));
         observable.publish(mock(ServerAccepted.class));
 
-        verifyZeroInteractions(mockObserver);
+        verifyNoMoreInteractions(mockObserver);
     }
 
     @Test
@@ -137,7 +136,7 @@ public class ResponseObservableTest {
         observable.publish(mock(ServerRejected.class));
         observable.publish(mock(ServerAccepted.class));
 
-        verifyZeroInteractions(mockObserver);
+        verifyNoMoreInteractions(mockObserver);
     }
 
     private static class TestObserver implements ResponseObserver {

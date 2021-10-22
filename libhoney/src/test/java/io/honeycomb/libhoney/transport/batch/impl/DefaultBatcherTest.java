@@ -37,7 +37,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -165,7 +165,7 @@ public class DefaultBatcherTest {
         for (final TestEvent testEvent : batchWithKey1) {
             batcher.offerEvent(testEvent);
         }
-        verifyZeroInteractions(consumerMock); // make sure that so far nothing happened
+        verifyNoMoreInteractions(consumerMock); // make sure that so far nothing happened
 
         // WHEN submitting the 10th event
         final TestEvent tenthElement = new TestEvent("key1", "data1");
@@ -207,7 +207,7 @@ public class DefaultBatcherTest {
         for (final TestEvent testEvent : batchWithKey2) {
             batcher.offerEvent(testEvent);
         }
-        verifyZeroInteractions(consumerMock); // double check nothing's happened so far
+        verifyNoMoreInteractions(consumerMock); // double check nothing's happened so far
 
         // WHEN submitting the 10th event for batch 2
         final TestEvent tenthElementWithKey2 = new TestEvent("key2", "info1");

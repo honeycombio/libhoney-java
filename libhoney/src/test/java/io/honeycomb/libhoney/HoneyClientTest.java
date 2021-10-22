@@ -3,10 +3,10 @@ package io.honeycomb.libhoney;
 import io.honeycomb.libhoney.eventdata.EventData;
 import io.honeycomb.libhoney.eventdata.ResolvedEvent;
 import io.honeycomb.libhoney.responses.ClientRejected;
+import io.honeycomb.libhoney.responses.ResponseObservable;
 import io.honeycomb.libhoney.responses.ServerAccepted;
 import io.honeycomb.libhoney.responses.ServerRejected;
 import io.honeycomb.libhoney.responses.Unknown;
-import io.honeycomb.libhoney.responses.ResponseObservable;
 import io.honeycomb.libhoney.transport.Transport;
 import io.honeycomb.libhoney.transport.batch.ClockProvider;
 import org.junit.After;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 public class HoneyClientTest {
@@ -256,7 +256,7 @@ public class HoneyClientTest {
         try {
             honeyClient.sendEventPresampled(event);
         } catch (final IllegalArgumentException e) {
-            verifyZeroInteractions(mockTransport, mockObservable);
+            verifyNoMoreInteractions(mockTransport, mockObservable);
             return;
         }
         fail("Expected exception to be thrown");
@@ -275,7 +275,7 @@ public class HoneyClientTest {
         try {
             honeyClient.sendEventPresampled(event);
         } catch (final IllegalArgumentException e) {
-            verifyZeroInteractions(mockTransport, mockObservable);
+            verifyNoMoreInteractions(mockTransport, mockObservable);
             return;
         }
         fail("Expected exception to be thrown");
@@ -295,7 +295,7 @@ public class HoneyClientTest {
         try {
             honeyClient.sendEventPresampled(event);
         } catch (final IllegalArgumentException e) {
-            verifyZeroInteractions(mockTransport, mockObservable);
+            verifyNoMoreInteractions(mockTransport, mockObservable);
             return;
         }
         fail("Expected exception to be thrown");
@@ -316,7 +316,7 @@ public class HoneyClientTest {
         try {
             honeyClient.sendEventPresampled(event);
         } catch (final IllegalArgumentException e) {
-            verifyZeroInteractions(mockTransport, mockObservable);
+            verifyNoMoreInteractions(mockTransport, mockObservable);
             return;
         }
         fail("Expected exception to be thrown");
@@ -337,7 +337,7 @@ public class HoneyClientTest {
         try {
             honeyClient.sendEventPresampled(event);
         } catch (final IllegalArgumentException e) {
-            verifyZeroInteractions(mockTransport, mockObservable);
+            verifyNoMoreInteractions(mockTransport, mockObservable);
             return;
         }
         fail("Expected exception to be thrown");
