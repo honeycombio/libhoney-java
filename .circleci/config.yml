@@ -78,6 +78,7 @@ workflows:
                 - "8.0"
                 - "11.0"
                 - "13.0"
+                - "17.0"
   build:
     jobs:
       - test:
