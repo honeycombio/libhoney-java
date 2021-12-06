@@ -3,18 +3,19 @@
 
 ### Fixes
 
-- Add specific dependency for apache.httpcomponents:httpcore-nio (#98)
+- Add specific dependency for apache.httpcomponents:httpcore-nio (#98) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
+
 ## Maintenance
 
-- Update dependabot.yml (#95)
-- Empower apply-labels action to apply labels (#93)
-- Add java 17 to test matrix (#91)
-- Change maintenance badge to maintained (#84)
-- Adds Stalebot (#85)
-- Remove API Reference broken link from README (#71)
-- Add issue and PR templates (#70)
-- Add OSS lifecycle badge (#68)
-- Add community health files (#67)
+- Update dependabot.yml (#95) | [@vreynolds](https://github.com/vreynolds)
+- Empower apply-labels action to apply labels (#93) | [@robbkidd](https://github.com/robbkidd)
+- Add java 17 to test matrix (#91) | [@vreynolds](https://github.com/vreynolds)
+- Change maintenance badge to maintained (#84) | [@JamieDanielson](https://github.com/JamieDanielson)
+- Adds Stalebot (#85) | [@JamieDanielson](https://github.com/JamieDanielson)
+- Remove API Reference broken link from README (#71) | [@JamieDanielson](https://github.com/JamieDanielson)
+- Add issue and PR templates (#70) | [@vreynolds](https://github.com/vreynolds)
+- Add OSS lifecycle badge (#68) | [@vreynolds](https://github.com/vreynolds)
+- Add community health files (#67) | [@vreynolds](https://github.com/vreynolds)
 
 ### Dependencies
 
