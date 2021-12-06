@@ -1,4 +1,45 @@
 # libhoney Changelog
+## 1.4.0
+
+### Fixes
+
+- Add specific dependency for apache.httpcomponents:httpcore-nio (#98)
+## Maintenance
+
+- Update dependabot.yml (#95)
+- Empower apply-labels action to apply labels (#93)
+- Add java 17 to test matrix (#91)
+- Change maintenance badge to maintained (#84)
+- Adds Stalebot (#85)
+- Remove API Reference broken link from README (#71)
+- Add issue and PR templates (#70)
+- Add OSS lifecycle badge (#68)
+- Add community health files (#67)
+
+### Dependencies
+
+- Bump pmdCoreVersion from 6.39.0 to 6.40.0 (#92)
+- Bump jackson-databind from 2.12.5 to 2.13.0 (#89)
+- Bump mockito-core from 4.0.0 to 4.1.0 (#94)
+- Bump jackson-core from 2.12.5 to 2.13.0 (#88)
+- Bump mockito-core from 3.12.4 to 4.0.0 (#90)
+- Bump pmdCoreVersion from 6.38.0 to 6.39.0 (#87)
+- Bump maven-javadoc-plugin from 3.3.0 to 3.3.1 (#86)
+- Bump httpasyncclient from 4.1.3 to 4.1.4 (#80)
+- Bump jackson-core from 2.12.4 to 2.12.5 (#78)
+- Bump mockito-core from 2.18.0 to 3.12.4 (#82)
+- Bump pmdCoreVersion from 6.37.0 to 6.38.0 (#79)
+- Bump maven-pmd-plugin from 3.14.0 to 3.15.0 (#83)
+- Bump jackson-databind from 2.9.10.7 to 2.12.5 (#76)
+- Bump assertj-core from 2.9.0 to 3.21.0 (#81)
+- Bump maven-jxr-plugin from 2.5 to 3.1.1 (#66)
+- Bump maven-gpg-plugin from 1.5 to 3.0.1 (#77)
+- Bump slf4j-api from 1.7.25 to 1.7.32 (#64)
+- Bump junit from 4.12 to 4.13.2 (#63)
+- Bump maven-source-plugin from 3.0.1 to 3.2.1 (#75)
+- Bump maven-project-info-reports-plugin from 2.9 to 3.1.2 (#74)
+- Bump maven from 0.6.0 to 0.7.7 (#73)
+- Bump maven-pmd-plugin from 3.9.0 to 3.14.0 (#65)
 
 ## 1.3.2
 
