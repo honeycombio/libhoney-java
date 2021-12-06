@@ -1,11 +1,12 @@
 # libhoney Changelog
+
 ## 1.4.0
 
 ### Fixes
 
 - Add specific dependency for apache.httpcomponents:httpcore-nio (#98) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
 
-## Maintenance
+### Maintenance
 
 - Update dependabot.yml (#95) | [@vreynolds](https://github.com/vreynolds)
 - Empower apply-labels action to apply labels (#93) | [@robbkidd](https://github.com/robbkidd)
