@@ -63,7 +63,7 @@
         <jdkVersion>1.7</jdkVersion>
 
         <!-- COMPILE dependency versions -->
-        <apacheClientVersion>4.1.4</apacheClientVersion>
+        <apacheClientVersion>4.1.5</apacheClientVersion>
         <apacheHttpCoreVersion>4.4.14</apacheHttpCoreVersion>
         <jacksonCoreVersion>2.13.0</jacksonCoreVersion>
         <jacksonDatabindVersion>2.13.0</jacksonDatabindVersion>
