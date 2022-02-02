@@ -1,8 +1,22 @@
 # libhoney Changelog
 
+## 1.4.1
+
+### Maintenance
+
+- Add httpcore dependency (#109) | [@JamieDanielson](https://github.com/JamieDanielson)
+- Fix maven release (#100) | [@JamieDanielson](https://github.com/JamieDanielson)
+- gh: add re-triage workflow (#101) | [@vreynolds](https://github.com/vreynolds)
+- Bump apacheHttpCoreVersion from 4.4.14 to 4.4.15 (#110)
+- Bump httpasyncclient from 4.1.4 to 4.1.5 (#104)
+- Bump jackson-databind from 2.13.0 to 2.13.1 (#106)
+- Bump jackson-core from 2.13.0 to 2.13.1 (#105)
+- Bump mockito-core from 4.1.0 to 4.2.0 (#103)
+- Bump pmdCoreVersion from 6.40.0 to 6.41.0 (#97)
+
 ## 1.4.0
 
-### Fixes
+### Fixes
 
 - Add specific dependency for apache.httpcomponents:httpcore-nio (#98) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
 
