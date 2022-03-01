@@ -67,7 +67,7 @@
         <apacheHttpCoreVersion>4.4.15</apacheHttpCoreVersion>
         <jacksonCoreVersion>2.13.1</jacksonCoreVersion>
         <jacksonDatabindVersion>2.13.1</jacksonDatabindVersion>
-        <slf4jVersion>1.7.32</slf4jVersion>
+        <slf4jVersion>1.7.36</slf4jVersion>
 
         <!-- TEST dependency versions -->
         <junitVersion>4.13.2</junitVersion>
