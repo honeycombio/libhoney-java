@@ -55,7 +55,7 @@ public class Options {
     }
 
     private boolean isClassic() {
-        return writeKey == null || writeKey == "" || writeKey.length() == 32;
+        return writeKey == null || writeKey.length() == 0 || writeKey.length() == 32;
     }
 
     /**
@@ -82,7 +82,7 @@ public class Options {
         if (isClassic()) {
             return dataset;
         }
-        if (dataset == null || dataset.trim() == "") {
+        if (dataset == null || dataset.trim().length() == 0) {
             return DEFAULT_NON_CLASSIC_DATASET;
         }
         return dataset.trim();
