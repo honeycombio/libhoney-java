@@ -21,6 +21,7 @@ public class Options {
     public static final URI DEFAULT_API_HOST = URI.create("https://api.honeycomb.io/");
     public static final String DEFAULT_WRITE_KEY = null;
     public static final String DEFAULT_DATASET = null;
+    public static final String DEFAULT_NON_CLASSIC_DATASET = "unknown_service";
     public static final int DEFAULT_SAMPLE_RATE = 1;
     public static final Map<String, Object> DEFAULT_FIELDS = Collections.emptyMap();
     public static final Map<String, ValueSupplier<?>> DEFAULT_DYNAMIC_FIELDS = Collections.emptyMap();
@@ -53,6 +54,9 @@ public class Options {
         Assert.isTrue(this.sampleRate >= 1, "sampleRate must be 1 or greater");
     }
 
+    private boolean isClassic() {
+        return writeKey == null || writeKey == "" || writeKey.length() == 32;
+    }
 
     /**
      * @return api host.
@@ -75,7 +79,13 @@ public class Options {
      * @see Builder#setDataset(String)
      */
     public String getDataset() {
-        return dataset;
+        if (isClassic()) {
+            return dataset;
+        }
+        if (dataset == null || dataset.trim() == "") {
+            return DEFAULT_NON_CLASSIC_DATASET;
+        }
+        return dataset.trim();
     }
 
     /**
@@ -119,7 +129,7 @@ public class Options {
         return "Options{" +
             "apiHost=" + apiHost +
             ", writeKey=**********" +
-            ", dataset='" + dataset + '\'' +
+            ", dataset='" + getDataset() + '\'' +
             ", sampleRate=" + sampleRate +
             ", globalFields=" + globalFields +
             ", globalDynamicFields=" + globalDynamicFields +
