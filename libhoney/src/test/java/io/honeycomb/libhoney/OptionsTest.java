@@ -49,7 +49,7 @@ public class OptionsTest {
     }
 
     @Test
-    public void Given_non_classic_writekey_and_null_dataset_getDataset_returns_unknown_service() {
+    public void Given_non_classic_writekey_and_null_dataset_getDataset_returns_unknown_dataset() {
         Options options = Options.builder()
             .setWriteKey("d68f9ed1e96432ac1a3380")
             .setDataset(null)
@@ -58,7 +58,7 @@ public class OptionsTest {
     }
 
     @Test
-    public void Given_non_classic_writekey_and_empty_dataset_getDataset_returns_unknown_service() {
+    public void Given_non_classic_writekey_and_empty_dataset_getDataset_returns_unknown_dataset() {
         Options options = Options.builder()
             .setWriteKey("d68f9ed1e96432ac1a3380")
             .setDataset("")
@@ -67,7 +67,7 @@ public class OptionsTest {
     }
 
     @Test
-    public void Given_non_classic_writekey_and_whitespace_dataset_getDataset_returns_unknown_service() {
+    public void Given_non_classic_writekey_and_whitespace_dataset_getDataset_returns_unknown_dataset() {
         Options options = Options.builder()
             .setWriteKey("d68f9ed1e96432ac1a3380")
             .setDataset("   ")

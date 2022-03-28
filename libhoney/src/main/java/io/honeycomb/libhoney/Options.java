@@ -21,7 +21,7 @@ public class Options {
     public static final URI DEFAULT_API_HOST = URI.create("https://api.honeycomb.io/");
     public static final String DEFAULT_WRITE_KEY = null;
     public static final String DEFAULT_DATASET = null;
-    public static final String DEFAULT_NON_CLASSIC_DATASET = "unknown_service";
+    public static final String DEFAULT_NON_CLASSIC_DATASET = "unknown_dataset";
     public static final int DEFAULT_SAMPLE_RATE = 1;
     public static final Map<String, Object> DEFAULT_FIELDS = Collections.emptyMap();
     public static final Map<String, ValueSupplier<?>> DEFAULT_DYNAMIC_FIELDS = Collections.emptyMap();
