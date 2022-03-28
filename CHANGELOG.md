@@ -1,5 +1,11 @@
 # libhoney Changelog
 
+## 1.5.0
+
+### Enhancements
+
+- Update default dataset name for non-classic API keys (#121) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
+
 ## 1.4.1
 
 ### Maintenance
