@@ -83,7 +83,11 @@ public class Options {
             return dataset;
         }
         if (dataset == null || dataset.trim().length() == 0) {
+            System.err.println("WARN: Dataset is empty or whitespace, using default: " + DEFAULT_NON_CLASSIC_DATASET);
             return DEFAULT_NON_CLASSIC_DATASET;
+        }
+        if (dataset != dataset.trim()) {
+            System.err.println("WARN: Dataset has unexpected whitespace, using trimmed version: " + DEFAULT_NON_CLASSIC_DATASET);
         }
         return dataset.trim();
     }
