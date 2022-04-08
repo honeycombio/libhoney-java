@@ -77,7 +77,7 @@
 
         <!-- Maven plugin versions -->
         <compilerPluginVersion>3.8.1</compilerPluginVersion>
-        <reportsPluginVersion>3.1.2</reportsPluginVersion>
+        <reportsPluginVersion>3.2.2</reportsPluginVersion>
         <mavenSourcePluginVersion>3.2.1</mavenSourcePluginVersion>
         <mavenJarPluginVersion>3.2.0</mavenJarPluginVersion>
         <javadocPluginVersion>3.3.1</javadocPluginVersion>
@@ -110,7 +110,7 @@
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.8</version>
+                        <version>1.6.12</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
