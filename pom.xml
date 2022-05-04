@@ -80,7 +80,7 @@
         <reportsPluginVersion>3.2.2</reportsPluginVersion>
         <mavenSourcePluginVersion>3.2.1</mavenSourcePluginVersion>
         <mavenJarPluginVersion>3.3.0</mavenJarPluginVersion>
-        <javadocPluginVersion>3.3.1</javadocPluginVersion>
+        <javadocPluginVersion>3.4.0</javadocPluginVersion>
         <xrefPluginVersion>3.2.0</xrefPluginVersion>
         <mavenWrapperPluginVersion>0.7.7</mavenWrapperPluginVersion>
         <pmdPluginVersion>3.15.0</pmdPluginVersion>
