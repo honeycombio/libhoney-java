@@ -92,6 +92,7 @@
 
     <modules>
         <module>libhoney</module>
+        <module>examples</module>
      </modules>
 
     <profiles>
