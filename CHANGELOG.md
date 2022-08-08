@@ -1,5 +1,39 @@
 # libhoney Changelog
 
+## 1.5.1
+
+### Maintenance
+
+- Add Java 18 to CI matrix (#151) | [@vreynolds](https://github.com/vreynolds)
+- Build example during CI (#138) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
+
+### Dependencies
+
+- Bump pmdCoreVersion from 6.47.0 to 6.48.0 (#150)
+- Bump maven-project-info-reports-plugin from 3.3.0 to 3.4.0 (#149)
+- Bump pmdCoreVersion from 6.46.0 to 6.47.0 (#148)
+- Bump jackson-databind from 2.13.1 to 2.13.3 (#141)
+- Bump jackson-core from 2.13.2 to 2.13.3 (#142)
+- Bump maven-project-info-reports-plugin from 3.2.2 to 3.3.0 (#146)
+- Bump mockito-core from 4.6.0 to 4.6.1 (#147)
+- Bump pmdCoreVersion from 6.45.0 to 6.46.0 (#143)
+- Bump assertj-core from 3.22.0 to 3.23.1 (#144)
+- Bump maven-pmd-plugin from 3.15.0 to 3.17.0 (#145)
+- Bump mockito-core from 4.5.1 to 4.6.0 (#140)
+- Bump maven-javadoc-plugin from 3.3.1 to 3.4.0 (#136)
+- Bump maven-jxr-plugin from 3.1.1 to 3.2.0 (#137)
+- Bump pmdCoreVersion from 6.41.0 to 6.45.0 (#135)
+- Bump maven-shade-plugin from 3.2.4 to 3.3.0 (#134)
+- Bump mockito-core from 4.4.0 to 4.5.1 (#133)
+- Bump build-helper-maven-plugin from 3.2.0 to 3.3.0 (#112)
+- Bump maven-compiler-plugin from 3.8.1 to 3.10.1 (#123)
+- Bump slf4j-api from 1.7.32 to 1.7.36 (#117)
+- Bump nexus-staging-maven-plugin from 1.6.8 to 1.6.13 (#132)
+- Bump maven-project-info-reports-plugin from 3.1.2 to 3.2.2 (#129)
+- Bump jackson-core from 2.13.1 to 2.13.2 (#128)
+- Bump assertj-core from 3.21.0 to 3.22.0 (#127)
+- Bump mockito-core from 4.2.0 to 4.4.0 (#124)
+
 ## 1.5.0
 
 ### Enhancements
