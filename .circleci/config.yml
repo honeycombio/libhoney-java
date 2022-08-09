@@ -15,7 +15,7 @@ jobs:
       - checkout
       - maven/with_cache:
           steps:
-            - run: mvn clean test
+            - run: mvn clean package
 
   package:
     executor: &default_executor
