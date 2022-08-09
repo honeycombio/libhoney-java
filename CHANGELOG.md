@@ -1,6 +1,14 @@
 # libhoney Changelog
 
+## 1.5.2 2022-08-09
+
+### Maintenance
+
+- Fix javadoc generation (#154) | [@MikeGoldsmith](https://github.com/MikeGoldsmith)
+
 ## 1.5.1
+
+NOTE: This release failed to publish, please use 1.5.2 instead.
 
 ### Maintenance
 
