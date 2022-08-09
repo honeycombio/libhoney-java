@@ -1,6 +1,6 @@
 # libhoney Changelog
 
-## 1.5.2
+## 1.5.2 2022-08-09
 
 ### Maintenance
 
