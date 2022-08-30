@@ -1,5 +1,6 @@
 # Release Process
 
+1. Open a docs PR updating to the new version (and any additional things that need documenting in this release)
 1. Add release entry to [changelog](./CHANGELOG.md)
 1. Update version in each pom.xml:
  - [parent](./pom.xml)
