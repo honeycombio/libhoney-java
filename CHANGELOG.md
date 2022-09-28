@@ -1,5 +1,24 @@
 # libhoney Changelog
 
+## 1.5.3 2022-09-28
+
+### Maintenance
+
+- Add releasing step to update docs (#156) | [@vreynolds](https://github.com/vreynolds)
+
+### Dependencies
+
+- Bump jackson-core from 2.13.3 to 2.13.4 (#167)
+- Bump mockito-core from 4.6.1 to 4.8.0 (#166)
+- Bump maven-shade-plugin from 3.3.0 to 3.4.0 (#164)
+- Bump maven-pmd-plugin from 3.17.0 to 3.19.0 (#165)
+- Bump slf4j-api from 1.7.36 to 2.0.2 (#163)
+- Bump jackson-databind from 2.13.3 to 2.13.4 (#162)
+- Bump maven-project-info-reports-plugin from 3.4.0 to 3.4.1 (#159)
+- Bump maven-javadoc-plugin from 3.4.0 to 3.4.1 (#158)
+- Bump pmdCoreVersion from 6.48.0 to 6.49.0 (#160)
+- Bump maven-jxr-plugin from 3.2.0 to 3.3.0 (#161)
+
 ## 1.5.2 2022-08-09
 
 ### Maintenance
