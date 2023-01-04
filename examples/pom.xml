@@ -15,9 +15,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.honeycomb.libhoney</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>libhoney-java</artifactId>
-            <version>1.5.4</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>
