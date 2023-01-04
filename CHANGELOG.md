@@ -1,5 +1,15 @@
 # libhoney Changelog
 
+## 1.5.4 2023-01-03
+
+### Dependencies
+
+- maint(deps): bump slf4j-api from 2.0.2 to 2.0.6 (#185)
+- Bump maven-shade-plugin from 3.4.0 to 3.4.1 (#176)
+- Bump pmdCoreVersion from 6.49.0 to 6.51.0 (#175)
+- maint(deps-dev): bump mockito-core from 4.8.0 to 4.10.0 (#184)
+- Bump jackson-databind from 2.13.4 to 2.14.1 (#181)
+
 ## 1.5.3 2022-09-28
 
 ### Maintenance

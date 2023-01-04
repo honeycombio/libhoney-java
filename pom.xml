@@ -6,7 +6,7 @@
 
     <groupId>io.honeycomb.libhoney</groupId>
     <artifactId>libhoney-java-parent</artifactId>
-    <version>1.5.3</version>
+    <version>1.5.4</version>
     <packaging>pom</packaging>
     <name>libhoney-java (Parent)</name>
     <description>The Java client for sending events to Honeycomb (parent module)</description>
@@ -67,11 +67,11 @@
         <apacheHttpCoreVersion>4.4.15</apacheHttpCoreVersion>
         <jacksonCoreVersion>2.13.4</jacksonCoreVersion>
         <jacksonDatabindVersion>2.14.1</jacksonDatabindVersion>
-        <slf4jVersion>2.0.2</slf4jVersion>
+        <slf4jVersion>2.0.6</slf4jVersion>
 
         <!-- TEST dependency versions -->
         <junitVersion>4.13.2</junitVersion>
-        <mockitoVersion>4.8.0</mockitoVersion>
+        <mockitoVersion>4.10.0</mockitoVersion>
         <assertjVersion>3.23.1</assertjVersion>
         <wiremockVersion>2.27.2</wiremockVersion>
 
@@ -84,9 +84,9 @@
         <xrefPluginVersion>3.3.0</xrefPluginVersion>
         <mavenWrapperPluginVersion>0.7.7</mavenWrapperPluginVersion>
         <pmdPluginVersion>3.19.0</pmdPluginVersion>
-        <pmdCoreVersion>6.49.0</pmdCoreVersion>
+        <pmdCoreVersion>6.51.0</pmdCoreVersion>
         <findbugsVersion>3.0.5</findbugsVersion>
-        <shadeVersion>3.4.0</shadeVersion>
+        <shadeVersion>3.4.1</shadeVersion>
         <surefireVersion>2.22.2</surefireVersion>
     </properties>
 
