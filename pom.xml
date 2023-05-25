@@ -76,7 +76,7 @@
         <wiremockVersion>2.27.2</wiremockVersion>
 
         <!-- Maven plugin versions -->
-        <compilerPluginVersion>3.10.1</compilerPluginVersion>
+        <compilerPluginVersion>3.11.0</compilerPluginVersion>
         <reportsPluginVersion>3.4.3</reportsPluginVersion>
         <mavenSourcePluginVersion>3.2.1</mavenSourcePluginVersion>
         <mavenJarPluginVersion>3.3.0</mavenJarPluginVersion>
