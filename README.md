@@ -8,17 +8,11 @@ Java library for sending events to [Honeycomb](https://honeycomb.io), a service 
 
 Requires Java 7 or greater.
 
-- [Usage and Examples](https://honeycomb.io/docs/connect/java)
-
-## Local Build
-
-Build with Java 7 and above by running the following from the root directory:
-
-```
-./mvnw package
-```
+- [Usage and Examples](https://docs.honeycomb.io/getting-data-in/libhoney/java/)
 
 ## Contributions
+
+See [DEVELOPMENT.md](./DEVELOPMENT.md)
 
 Features, bug fixes and other changes to `libhoney` are gladly accepted. Please
 open issues or a pull request with your change. Remember to add your name to the
