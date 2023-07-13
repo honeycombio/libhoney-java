@@ -87,7 +87,7 @@
         <pmdCoreVersion>6.55.0</pmdCoreVersion>
         <findbugsVersion>3.0.5</findbugsVersion>
         <shadeVersion>3.4.1</shadeVersion>
-        <surefireVersion>2.22.2</surefireVersion>
+        <surefireVersion>3.1.2</surefireVersion>
     </properties>
 
     <modules>
