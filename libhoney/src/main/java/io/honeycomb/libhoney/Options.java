@@ -6,6 +6,7 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static io.honeycomb.libhoney.utils.ObjectUtils.getOrDefault;
 
@@ -26,6 +27,8 @@ public class Options {
     public static final Map<String, Object> DEFAULT_FIELDS = Collections.emptyMap();
     public static final Map<String, ValueSupplier<?>> DEFAULT_DYNAMIC_FIELDS = Collections.emptyMap();
     public static final EventPostProcessor DEFAULT_EVENT_POST_PROCESSOR = null;
+    private static final Pattern CLASSIC_KEY_REGEX = Pattern.compile("^[a-f0-9]*$");
+    private static final Pattern INGEST_CLASSIC_KEY_REGEX = Pattern.compile("^hc[a-z]ic_[a-z0-9]*$");
 
     /// honeyclient properties
     private final URI apiHost;
@@ -54,8 +57,21 @@ public class Options {
         Assert.isTrue(this.sampleRate >= 1, "sampleRate must be 1 or greater");
     }
 
+    public static boolean isClassic(String key) {
+        if(key == null || key.length() == 0) {
+            return true;
+        }
+        else if(key.length() == 32) {
+            return CLASSIC_KEY_REGEX.matcher(key).matches();
+        }
+        else if(key.length() == 64) {
+            return INGEST_CLASSIC_KEY_REGEX.matcher(key).matches();
+        }
+        return false;
+    }
+
     private boolean isClassic() {
-        return writeKey == null || writeKey.length() == 0 || writeKey.length() == 32;
+        return isClassic(writeKey);
     }
 
     /**
