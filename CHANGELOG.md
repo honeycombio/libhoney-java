@@ -4,28 +4,28 @@
 
 ### Enhancements
 
-e84f78e9 feat: Add support for classic ingest keys (#223) | @cewkrupa
+- feat: Add support for classic ingest keys (#223) | @cewkrupa
 
 ### Maintenance
 
-2572e0d8 docs: add development.md (#211) | @vreynolds
-5d30230c maint: ignore mockito 5 upgrade (#197) | @vreynolds
-9b64408e maint: update codeowners to pipeline-team (#222) | @JamieDanielson
-f66592df maint: update codeowners to pipeline (#221) | @JamieDanielson
-908f4631 maint: local reference for examples (#187) | @vreynolds
-01021196 maint(deps): bump maven-pmd-plugin from 3.19.0 to 3.21.0 (#213) | @dependabot
-9a5ded8e maint(deps): bump maven-surefire-plugin from 2.22.2 to 3.1.2 (#214) | @dependabot
-d88c7c90 maint(deps): bump maven-project-info-reports-plugin from 3.4.3 to 3.4.5 (#212) | @dependabot
-8cb96309 maint(deps): bump maven-source-plugin from 3.2.1 to 3.3.0 (#208) | @dependabot
-ad3c5ac5 maint(deps): bump build-helper-maven-plugin from 3.3.0 to 3.4.0 (#206) | @dependabot
-22862a0c maint(deps): bump maven-compiler-plugin from 3.10.1 to 3.11.0 (#198) | @dependabot
-080159c0 maint(deps): bump pmdCoreVersion from 6.53.0 to 6.55.0 (#205) | @dependabot
-08ca7c56 maint(deps): bump maven-project-info-reports-plugin from 3.4.2 to 3.4.3 (#204) | @dependabot
-10c16d17 maint(deps): bump slf4j-api from 2.0.6 to 2.0.7 (#199) | @dependabot
-b022a558 maint(deps): bump apacheHttpCoreVersion from 4.4.15 to 4.4.16 (#190) | @dependabot
-a59753b2 maint(deps): bump maven-project-info-reports-plugin from 3.4.1 to 3.4.2 (#200) | @dependabot
-2cfe1eb6 maint(deps): bump pmdCoreVersion from 6.51.0 to 6.53.0 (#191) | @dependabot
-571f735e maint(deps-dev): bump assertj-core from 3.23.1 to 3.24.2 (#193) | @dependabot
+- docs: add development.md (#211) | @vreynolds
+- maint: ignore mockito 5 upgrade (#197) | @vreynolds
+- maint: update codeowners to pipeline-team (#222) | @JamieDanielson
+- maint: update codeowners to pipeline (#221) | @JamieDanielson
+- maint: local reference for examples (#187) | @vreynolds
+- maint(deps): bump maven-pmd-plugin from 3.19.0 to 3.21.0 (#213) | @dependabot
+- maint(deps): bump maven-surefire-plugin from 2.22.2 to 3.1.2 (#214) | @dependabot
+- maint(deps): bump maven-project-info-reports-plugin from 3.4.3 to 3.4.5 (#212) | @dependabot
+- maint(deps): bump maven-source-plugin from 3.2.1 to 3.3.0 (#208) | @dependabot
+- maint(deps): bump build-helper-maven-plugin from 3.3.0 to 3.4.0 (#206) | @dependabot
+- maint(deps): bump maven-compiler-plugin from 3.10.1 to 3.11.0 (#198) | @dependabot
+- maint(deps): bump pmdCoreVersion from 6.53.0 to 6.55.0 (#205) | @dependabot
+- maint(deps): bump maven-project-info-reports-plugin from 3.4.2 to 3.4.3 (#204) | @dependabot
+- maint(deps): bump slf4j-api from 2.0.6 to 2.0.7 (#199) | @dependabot
+- maint(deps): bump apacheHttpCoreVersion from 4.4.15 to 4.4.16 (#190) | @dependabot
+- maint(deps): bump maven-project-info-reports-plugin from 3.4.1 to 3.4.2 (#200) | @dependabot
+- maint(deps): bump pmdCoreVersion from 6.51.0 to 6.53.0 (#191) | @dependabot
+- maint(deps-dev): bump assertj-core from 3.23.1 to 3.24.2 (#193) | @dependabot
 
 ## 1.5.4 2023-01-03
 
